@@ -1,0 +1,7 @@
+# Global node_modules (optional if handled in subfolders)
+node_modules/
+.env
+.DS_Store
+dist/
+build/
+logs/
