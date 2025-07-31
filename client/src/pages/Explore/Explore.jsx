@@ -15,7 +15,7 @@ function Explore() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/v1/explore")
+        const res = await axios.get("https://brotube-server.onrender.com/api/v1/explore")
         setVideos(res.data)
         console.log(res.data);
         
