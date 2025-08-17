@@ -44,7 +44,7 @@ function Video() {
 	useEffect(() => {
 		const fetchVideo = async () => {
 			try {
-				const res = await axios.get(`http://brotube-server.onrender.com/api/v1/home/${vId}`)
+				const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home/${vId}`)
 				setVideo(res.data)
 			} catch (err) {
 				console.error('Failed to fetch video:', err.message);
