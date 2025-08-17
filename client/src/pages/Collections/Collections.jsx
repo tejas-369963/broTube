@@ -4,10 +4,11 @@ function Collection() {
 
   const user = useSelector(state => state.auth.userData)
 
-  return !user ? <div className='w-full h-full text-center flex justify-center items-center'><h1>Login to see <h2>Collections</h2></h1></div> 
+  return !user ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Collections</h2></div> 
 	: (
-    <div>
-      Collection
+    <div className='w-full h-full text-center flex flex-col justify-center items-center'>
+      <h1>Site development</h1>
+      <h2>You will see this page soon</h2>
     </div>
   )
 }
