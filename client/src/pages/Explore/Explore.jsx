@@ -5,20 +5,24 @@ import {
   Music_svg,
   Gaming_svg
 } from '../../icons'
-import ExploreComp from '../../components/ExploreComp/ExploreComp'
+import { nanoid } from '@reduxjs/toolkit'
+import VideoCard from '../../components/HomeVideoCard/HomeVideoCard'
+import Loader from '../../components/Loader'
 
 function Explore() {
 
+  const [videoTag, setVideoTag] = useState("")
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     const fetchVideos = async () => {
       try {
-        const res = await axios.get("https://brotube-server.onrender.com/api/v1/explore")
-        setVideos(res.data)
+        const res = await axios.get(`http://localhost:5000/api/v1/explore${videoTag}`)
+        setVideos(res.data.data)
         console.log(res.data);
-        
+
       } catch (err) {
         console.error('Failed to fetch video:', err.message);
       } finally {
@@ -28,44 +32,97 @@ function Explore() {
 
     fetchVideos()
 
-  }, [])
+  }, [videoTag])
 
   const navItems = [
     {
       tag: "Now",
-      vid: videos.Now,
-      url: "/trending-now"
+      url: "/"
     },
     {
       tag: "Music",
-      vid: videos.Music,
-      url: "/trending-music"
+      url: "/music"
     },
     {
       tag: "Gaming",
-      vid: videos.Gaming,
-      url: "/trending-gaming"
+      url: "/gaming"
     },
     {
-      tag: "Movie",
-      vid: videos.Movie,
-      url: "/trending-movies"
+      tag: "Sports",
+      url: "/sports"
     },
     {
-      tag: "Podcast",
-      vid: videos.Podcast,
-      url: "/trending-comedy"
+      tag: "Vlog",
+      url: "/vlog"
     },
   ]
 
-  return loading ? <div className='w-full h-full text-center flex justify-center items-center'><h1>Loading</h1></div>
-    : (
-      <div className='w-full overflow-hidden borderG rounded-3xl' style={{ height: "calc(100dvh - 5.7rem)" }}>
-        <div className='w-full h-full overflow-y-scroll '>
-          <ExploreComp Icon={Trending_svg} title={"Trending"} trending={videos?.data} navItems={navItems} className={"tvc"} />
+  const [active, setActive] = useState("Now")
+
+  useEffect(() => {
+    switch (active) {
+      case "Now":
+        setVideoTag("")
+        break;
+      case "Music":
+        setVideoTag("/music")
+        break;
+      case "Gaming":
+        setVideoTag("/gaming")
+        break;
+      case "Sports":
+        setVideoTag("/sports")
+        break;
+      case "Vlog":
+        setVideoTag("/vlog")
+        break;
+
+      default:
+        break;
+    }
+  }, [active])
+
+  return (
+    <div className='w-full overflow-hidden borderG rounded-3xl' style={{ height: "calc(100dvh - 5.7rem)" }}>
+      <div className='w-full h-full overflow-y-scroll '>
+        <div className='w-full'>
+          <div className='flex justify-between items-center p-6 pb-3'>
+            <div className='flex items-center gap-6'>
+              <Trending_svg fill={"var(--bg)"} />
+              <h1>{"Trending"}</h1>
+            </div>
+          </div>
+          <ul className='nav flex gap-16 gText smallT px-6 pt-9 bg-dark z-10 overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
+            {navItems?.map((item) => (
+              <li key={item?.tag}>
+                <p className={`pb-3 cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>
+                {active === item?.tag ? <div className='h-0.75 w-6 rounded-t-2xl mx-auto prime'></div> : ""}
+              </li>
+            ))}
+          </ul>
+          {loading ? <Loader />
+            : <div className="w-full gap-x-4 gap-y-8 p-6 pb-3 tvc border-t border-t-[var(--border-muted)]">
+              {videos?.map((video) => (
+                <div key={nanoid()}>
+                  <VideoCard
+                    id={video.id}
+                    title={video.snippet?.title}
+                    thumbnail={video?.snippet?.thumbnails.high.url}
+                    customUrl={video?.chDetails?.snippet.customUrl}
+                    channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
+                    channelName={video?.snippet?.channelTitle}
+                    views={video?.statistics.viewCount}
+                    publishedAt={video?.snippet?.publishedAt}
+                    duration={video.contentDetails?.duration}
+                    e={true}
+                  />
+                </div>
+              ))}
+            </div>}
         </div>
       </div>
-    )
+    </div>
+  )
 }
 
 export default Explore

@@ -18,6 +18,7 @@ import Subs from './pages/Subs/Subs.jsx'
 import Video from './pages/Video/Video.jsx'
 import Channel from './pages/Channel/Channel.jsx'
 import Playlist from './components/Playlist.jsx'
+import Trending from './pages/Trending.jsx'
 
 
 const router = createBrowserRouter(
@@ -25,7 +26,9 @@ const router = createBrowserRouter(
 		<Route path='/' element={<App/>}>
 			<Route path='' element={<Home />} />
 			<Route path='/search' element={<Search />} />
-			<Route path='/explore' element={<Explore />} />
+			<Route path='/explore' element={<Explore />} >
+				<Route path='' element={<Trending />} />
+			</Route>
 			<Route path='/shorts' element={<Shorts />} />
 			<Route path='/history' element={<History />} />
 			<Route path='/watchLater' element={<WatchLater />} />

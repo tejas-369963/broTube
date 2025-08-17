@@ -19,7 +19,7 @@ function Playlist() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p`, {pId}, { withCredentials: true })
+        const res = await axios.post(`http://localhost:5000/api/v1/playlist/p`, {pId}, { withCredentials: true })
         setPlaylists(res.data || [])
         console.log(res);
 
@@ -50,7 +50,7 @@ function Playlist() {
               total={videos.length}
               duration={99}
             />
-            <div className='flex justify-between'>
+            {/* <div className='flex justify-between'>
               <div className='flex items-center gap-4'>
                 <Circle />
                 <div className='flex items-center px-4 py-2 rounded-lg' style={{ backgroundColor: "var(--bg-light)", color: "var(--text-muted)" }}>
@@ -63,11 +63,11 @@ function Playlist() {
                 <SearchIcon fill='var(--highlight)' />
                 <span className='smallT' style={{ color: "var(--highlight)" }}>Search Playlist</span>
               </div>
-            </div>
+            </div> */}
             {videos?.map((video) => (
               <div className='' key={video.id}>
                 <VideoListCard
-                  id={video.id}
+                  id={video.contentDetails.videoId}
                   title={video?.snippet?.title}
                   thumbnail={video?.snippet?.thumbnails?.high?.url}
                   customUrl={video?.chDetails?.snippet?.customUrl}

@@ -32,9 +32,7 @@ function ListCover({
                 </div>
 
                 <div className={`gText`}>
-                    <h1 className='pt-2 ln wText'>{title}</h1>
-
-                    <h2 className=' pt-7.5 pb-2 ln wText'>{"Tejas Prajapati"}</h2>
+                    <h2 className='pt-2 pb-7.5 ln wText'>{title}</h2>
 
                     <div className="flex gap-4 pb-6 smallT">
                         <div className='flex items-center gap-1'>

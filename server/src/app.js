@@ -22,10 +22,12 @@ import userRouter from './routes/user.route.js'
 import videoRouter from "./routes/video.route.js"
 import playlistRouter from "./routes/playlist.route.js"
 import exploreRouter from './routes/explore.route.js'
+import channelRouter from './routes/channel.route.js'
 
 app.use("/api/v1/auth", refreshRouter)
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/home", videoRouter)
+app.use("/api/v1/channel", channelRouter)
 app.use("/api/v1/playlist", playlistRouter)
 app.use("/api/v1/explore", exploreRouter)
 

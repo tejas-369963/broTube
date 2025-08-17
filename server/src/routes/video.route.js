@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { getVideos, getVideo } from '../controllers/video.controller.js'
 import { isLoggedIn } from '../middlewares/auth.middleware.js'
+import { getVideos, getVideo } from '../controllers/video.controller.js'
 
 const router = Router()
 

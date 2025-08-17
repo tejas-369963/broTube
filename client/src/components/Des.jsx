@@ -18,7 +18,7 @@ const VideoDescription = ({ text }) => {
   const [expanded, setExpanded] = useState(false);
 
   // Optional truncation for "Show more"
-  const MAX_LINES = 6;
+  const MAX_LINES = 3;
   const lines = text.split('\n');
   const displayText = expanded ? text : lines.slice(0, MAX_LINES).join('\n');
   const isTruncated = lines.length > MAX_LINES;

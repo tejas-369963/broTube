@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import VideoCard from '../../components/HomeVideoCard/HomeVideoCard'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../Store/authSlice'
 import axios from 'axios'
+import { data } from 'react-router-dom'
+import { updateToken } from '../../Store/nextPageTokenSlice'
+import Loader from '../../components/Loader'
 
 function Home() {
 
@@ -12,7 +15,7 @@ function Home() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
+				const res = await axios.get("http://localhost:5000/api/v1/user/loggedIn", { withCredentials: true })
 				console.log(res.data);
 
 				const user = res.data.data?.userInfo
@@ -31,27 +34,46 @@ function Home() {
 	}, [])
 
 	const [videos, setVideos] = useState([])
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
+	const [initLoading, setInitLoading] = useState("init")
+	const nextPageToken = useSelector(state => state.token.token)
+	
+	const fetchVideos = (async () => {
+		if(loading) return
+		setLoading(true)
+		if(initLoading === "init") setInitLoading(true)
+		try {
+			const res = await axios.get(`http://localhost:5000/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
+			setVideos(prev => [...prev, ...res.data.resData])
+			dispatch(updateToken(res.data.nextPageToken || ""))	
+			console.log(videos);
+			
+		} catch (err) {
+			console.error('Failed to fetch video:', err.message);
+		} finally {
+			setLoading(false)
+			setInitLoading(false)
+		}
+	});
 
 	useEffect(() => {
-		const fetchVideos = async () => {
-			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/home")
-				setVideos(res.data || [])
-				console.log(res.data);
-				
-			} catch (err) {
-				console.error('Failed to fetch video:', err.message);
-			} finally {
-				setLoading(false)
-			}
-		}
-
 		fetchVideos()
-
 	}, [])
 
-	return loading ? <div className='w-full h-full text-center flex justify-center items-center'><h1>Loading</h1></div>
+	useEffect(() => {
+		const observer = new IntersectionObserver(([entry]) => {
+			if(entry.isIntersecting && nextPageToken && !loading){
+				fetchVideos(nextPageToken)
+			}
+		})
+		const sentinel = document.getElementById("scroll-sentinel")
+
+		if(sentinel) observer.observe(sentinel)
+
+		return () => observer.disconnect()
+	}, [nextPageToken, loading])
+
+	return initLoading ? <Loader />
 		: (
 			<div className='vc w-full gap-x-4 gap-y-8'>
 				{videos?.map((video) => (
@@ -69,6 +91,7 @@ function Home() {
 						/>
 					</div>
 				))}
+				{videos.length ? <div id='scroll-sentinel' className='h-px'></div> :  ""}
 			</div>
 		)
 }

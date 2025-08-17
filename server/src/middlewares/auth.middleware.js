@@ -7,12 +7,18 @@ export const isLoggedIn = asyncHandler(async (req, _, next) => {
 	
 	const refreshToken = req?.cookies?.refresh_token
 
-	if (!userInfo || !refreshToken) next()
+	// console.log("-->",refreshToken === undefined);
+
+	if (!userInfo || !refreshToken) return next()
 
 	req.user = userInfo
 
-	oauth2Client.setCredentials({refresh_token: refreshToken})
-
-	next()
+	try {
+		oauth2Client.setCredentials({refresh_token: refreshToken})
+		next()
+	} catch (error) {
+		console.log("OAuth error:", error.message);
+		next()
+	}
 
 })

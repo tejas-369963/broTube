@@ -1,12 +1,17 @@
 const convertViews = (v) => {
 
+	if(!v) return
+	
 	const res = v;
 
-	if(v.length > 6){
-		return `${v.slice(0, v.length-6)}M`
+	if (v.length > 9) {
+		return `${v.slice(0, v.length - 9)}${v.length - 9 < 2 ? `.${v[1]}` : ""}B`
 	}
-	else if(v.length > 3){
-		return `${v.slice(0, v.length-3)}K`
+	else if (v.length > 6) {
+		return `${v.slice(0, v.length - 6)}${v.length - 6 < 2 ? `.${v[1]}` : ""}M`
+	}
+	else if (v.length > 3) {
+		return `${v.slice(0, v.length - 3)}${v.length - 3 < 2 ? `.${v[1]}` : ""}K`
 	}
 
 	return res
@@ -23,32 +28,32 @@ const convertDate = (d) => {
 
 	let con
 
-	if(Math.floor(res / 60 / 60 / 24 / 30) > 0 ){
+	if (Math.floor(res / 60 / 60 / 24 / 30) > 0) {
 		con = Math.floor(res / 60 / 60 / 24 / 30)
 		let months = con > 1 ? "months" : "month"
 		res = `${con} ${months} ago`
 	}
 
-	else if(Math.floor(res / 60 / 60 / 24 / 7) > 0 ){
+	else if (Math.floor(res / 60 / 60 / 24 / 7) > 0) {
 		con = Math.floor(res / 60 / 60 / 24 / 7)
 		let weeks = con > 1 ? "weeks" : "week"
 		res = `${con} ${weeks} ago`
 	}
 
-	else if(Math.floor(res / 60 / 60 / 24) > 0 ){
+	else if (Math.floor(res / 60 / 60 / 24) > 0) {
 		con = Math.floor(res / 60 / 60 / 24)
 		let days = con > 1 ? "days" : "day"
 		res = `${con} ${days} ago`
 	}
 
-	else if(Math.floor(res / 60 / 60) > 0 ){
+	else if (Math.floor(res / 60 / 60) > 0) {
 		con = Math.floor(res / 60 / 60)
 		let hours = con > 1 ? "hours" : "hour"
 		res = `${con} ${hours} ago`
 	}
 
-	else if(Math.floor(res / 60 ) > 0 ){
-		con = Math.floor(res / 60 )
+	else if (Math.floor(res / 60) > 0) {
+		con = Math.floor(res / 60)
 		let minutes = con > 1 ? "minutes" : "hour"
 		res = `${con} ${minutes} ago`
 	}
@@ -57,43 +62,47 @@ const convertDate = (d) => {
 
 }
 const convertDateToString = (d) => {
-	
-    const givenDate = new Date(d)
 
-    const stringifiedDate = givenDate.toString()
+	const givenDate = new Date(d)
 
-    const temp = stringifiedDate.split(" ")
+	const temp = givenDate.toDateString()
 
-    const res = `${temp[2]} ${temp[1]} ${temp[3]}`
-
-	return res
+	return temp.slice("3")
 }
 
 const convertDuration = (d) => {
 
-    const aD = d.slice(2, d.length - 1)
+	const aD = d.slice(2, d.length - 1)
 
-	const bD = aD.split("H")
+	let h, m, s, temp
 
-	let temp = 0
-
-    if(bD.length > 1){
-		temp = bD[1].split("M")
+	if (aD.includes("M")) {
+		temp = aD.split("M")
+		if (temp[0].includes("H")) {
+			const tempH = temp[0].split("H")
+			h = tempH[0]
+			m = tempH[1]
+			s = temp[1]
+		}
+		else {
+			m = temp[0]
+			s = temp[1]
+		}
 	}
-	else{
-		temp = bD[0].split("M")
+	else {
+		s = aD
 	}
 
-    const res = `${bD.length > 1 ? `${bD[0]}:` :  ""}${temp[0]}:${temp[1] - "9" > 0 ? `${temp[1] || 0}` : `0${temp[1] || "0"}`}`
+	const res = `${`${h ? `${h}:` : ""}${m ? `${m}:` : "0:"}${s ? `${s.length < 2 ? `0${s}` : s}` : "00"}`}`
 
 	return res
 }
 
 
 
-export{
-    convertDate,
-    convertDateToString,
-    convertViews,
+export {
+	convertDate,
+	convertDateToString,
+	convertViews,
 	convertDuration
 }

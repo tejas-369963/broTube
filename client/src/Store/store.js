@@ -3,6 +3,7 @@ import authSlice from './authSlice'
 import videoSlice from './videoSlice.js'
 import currentVideoSlice from './currentVideoSlice.js'
 import sBarToggleSlice from './sBarToggleSlice.js'
+import nextPageTokenSlice from './nextPageTokenSlice.js'
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         videos: videoSlice,
         video: currentVideoSlice,
         sidebar: sBarToggleSlice,
+        token: nextPageTokenSlice
     }
 })
 

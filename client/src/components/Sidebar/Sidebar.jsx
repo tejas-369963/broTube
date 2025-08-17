@@ -10,7 +10,7 @@ import {
     Subs_svg,
     Down_svg
 } from '../../icons/index.js'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggle } from '../../Store/sBarToggleSlice.js'
 import { useEffect, useState } from 'react'
@@ -29,24 +29,24 @@ function Sidebar() {
             Icon: Explore_svg,
             url: "/explore"
         },
-        {
-            name: "Shorts",
-            Icon: Shorts_svg,
-            url: "/shorts"
-        },
+        // {
+        //     name: "Shorts",
+        //     Icon: Shorts_svg,
+        //     url: "/shorts"
+        // },
         {
             name: "divider",
         },
-        {
-            name: "History",
-            Icon: History_svg,
-            url: "/history"
-        },
-        {
-            name: "Watch Later",
-            Icon: Watch_svg,
-            url: "/watchLater"
-        },
+        // {
+        //     name: "History",
+        //     Icon: History_svg,
+        //     url: "/history"
+        // },
+        // {
+        //     name: "Watch Later",
+        //     Icon: Watch_svg,
+        //     url: "/watchLater"
+        // },
         {
             name: "Liked Videos",
             Icon: Like_svg,
@@ -78,6 +78,8 @@ function Sidebar() {
         }
     ]
 
+    const { v } = useParams()
+
     const [isToggled, setIsToggled] = useState()
 
     const [trig, setTrig] = useState(false)
@@ -87,7 +89,7 @@ function Sidebar() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (window.matchMedia("(max-width: 1300px)").matches) {
+        if (window.matchMedia("(max-width: 1300px)").matches || v) {
             if (trig === false) {
                 setIsToggled(false)
                 dispatch(toggle(false))
@@ -104,7 +106,7 @@ function Sidebar() {
     }, [toggleStatus])
 
     const resizeHandler = () => {
-        if (window.matchMedia("(max-width: 1300px)").matches) {
+        if (window.matchMedia("(max-width: 1300px)").matches || v) {
             setIsToggled(false)
             dispatch(toggle(false))
         }
@@ -115,11 +117,31 @@ function Sidebar() {
 
     window.addEventListener("resize", resizeHandler)
 
+    const [isSizeSmall, setIsSizeSmall] = useState(window.matchMedia("(max-width: 639px)").matches)
+
+	useEffect(() => {
+		if (window.matchMedia("(max-width: 639px)").matches)
+			setIsSizeSmall(true)
+		else
+			setIsSizeSmall(false)
+	}, [])
+
+	const resizHandler = () => {
+		if (window.matchMedia("(max-width: 639px)").matches) {
+			setIsSizeSmall(true)
+		}
+		else {
+			setIsSizeSmall(false)
+		}
+	}
+
+	window.addEventListener("resize", resizHandler)
+
     return (
         <>
-            <aside className={`h-full dimBg ${isToggled ? window.matchMedia("(max-width: 1300px)").matches ? "w-dvw z-10 absolute" : "min-w-68" : "min-w-18 max-w-18"}`}>
-                <nav className={`h-full ${isToggled ? "min-w-68 max-w-68" : "max-w-18 min-w-18"} sidT  smallT w500 bg-dark`}>
-                    <ul className={`px-3 ${isToggled ? "min-w-68 max-w-68" : "min-w-18 max-w-18"}`}>
+            <aside className={`h-full z-30 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`}>
+                <nav className={`h-full mx-[-.2rem] ${isToggled ? "min-w-68 max-w-68" : "max-w-20.5 min-w-20.5"} sidT  smallT w500 bg-dark`}>
+                    <ul className={`px-4 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
                         {navItems.map(({ name, Icon, url, dropDown }) => (
                             <li key={Math.random()} className='pb-0.5' >
                                 {name != "divider" ? <NavLink

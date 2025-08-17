@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom'
 import Des from '../../components/Des'
 import { useState } from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
+import { toggle } from '../../Store/sBarToggleSlice'
 
 function Video() {
 
@@ -33,13 +34,17 @@ function Video() {
 
 	const vId = v.slice(2)
 
+	const dispatch = useDispatch()
+
+	dispatch(toggle(false))
+
 	const [video, setVideo] = useState({})
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		const fetchVideo = async () => {
 			try {
-				const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home/${vId}`)
+				const res = await axios.get(`http://localhost:5000/api/v1/home/${vId}`)
 				setVideo(res.data)
 			} catch (err) {
 				console.error('Failed to fetch video:', err.message);
@@ -55,22 +60,22 @@ function Video() {
 	const [isSizeSmall, setIsSizeSmall] = useState(window.matchMedia("(max-width: 1280px)").matches)
 
 	useEffect(() => {
-		if(window.matchMedia("(max-width: 1280px)").matches)
+		if (window.matchMedia("(max-width: 1280px)").matches)
 			setIsSizeSmall(true)
 		else
 			setIsSizeSmall(false)
 	}, [])
 
 	const resizeHandler = () => {
-			if (window.matchMedia("(max-width: 1280px)").matches) {
-				setIsSizeSmall(true)
-			}
-			else {
-				setIsSizeSmall(false)
-			}
+		if (window.matchMedia("(max-width: 1280px)").matches) {
+			setIsSizeSmall(true)
 		}
-	
-		window.addEventListener("resize", resizeHandler)
+		else {
+			setIsSizeSmall(false)
+		}
+	}
+
+	window.addEventListener("resize", resizeHandler)
 
 	return loading ?
 		<div className='w-full h-full text-center flex justify-center items-center'><h1>Loading</h1></div>
@@ -81,36 +86,40 @@ function Video() {
 						<div className='aspect-video rounded-xl overflow-hidden'>
 							<VideoPlayer videoId={vId} />
 						</div>
-						<div className='pb-6'>
-							<h1 className='py-4'>{video?.video[0]?.snippet?.title}</h1>
-							<div className='flex justify-between'>
-								<div className='h-12 gap-4 flex  '>
-									<img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" />
-									<div className=''>
-										<div className='flex gap-2 items-center'>
-											<h2 className=''>{video.video[0]?.snippet?.channelTitle}</h2>
-											<Tick fill="var(--text-muted)" />
+						<div className='pb-4'>
+							<h2 className='py-4 text-[1.25rem]'>{video?.video[0]?.snippet?.title}</h2>
+							<div className='flex gap-2'>
+								<div className='flex items-center gap-1'>
+									<ViIcon fill='var(--highlight)' />
+									<p className=' text-[var(--text-muted)]'>{`${convertViews(video?.video[0]?.statistics.viewCount)}`}</p>
+								</div>
+								<div className='flex items-center gap-1'>
+									<DateIcon fill='var(--highlight)' />
+									<p className=' text-[var(--text-muted)]'>{`${convertDateToString(video?.video[0]?.snippet?.publishedAt)}`}</p>
+								</div>
+							</div>
+							<div className='flex flex-wrap gap-4'>
+								<div className='flex grow justify-between gap-4 pt-4'>
+									<div className='h-12 flex gap-3'>
+										<Link className='flex' to={`/${video.channel[0]?.snippet.customUrl}`}><img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" /></Link>
+										<div className=''>
+											<div className='flex gap-2 items-center'>
+												<Link to={`/${video.channel[0]?.snippet.customUrl}`}><h3 className=''>{video.video[0]?.snippet?.channelTitle}</h3></Link>
+												<Tick fill="var(--text-muted)" />
+											</div>
+											<p className='gText smallT'>{`${convertViews(video?.channel[0]?.statistics?.subscriberCount)} subscribers`}</p>
 										</div>
-										<p className='gText smallT'>{`${convertViews(video?.channel[0]?.statistics?.subscriberCount)} subscribers`}</p>
 									</div>
 									<button className='h-10 my-auto px-6 py-2 rounded-full prime text-black w500'>Subscribe</button>
 								</div>
-								<div className='flex items-center gap-4'>
-									<div className='flex items-center gap-1'>
-										<ViIcon fill='var(--svgHi)' />
-										<p>{`${convertViews(video?.video[0]?.statistics.viewCount)}`}</p>
-									</div>
-									<div className='flex items-center gap-1'>
-										<DateIcon fill='var(--svgHi)' />
-										<p>{`${convertDateToString(video?.video[0]?.snippet?.publishedAt)}`}</p>
-									</div>
+								<div className='flex items-center gap-4 pt-4 exs overflow-x-auto'>
 									<div className='flex gap-2'>
 										<div className='flex items-center'>
 											<button
 												className='h-10 flex items-center gap-2 px-6 py-2 rounded-l-full bgGray'
 											>
 												<Like_svg stroke='var(--svgHi)' />
-												<p>{`${convertViews(video?.video[0]?.statistics.likeCount)}`}</p>
+												<p>{`${convertViews(video?.video[0]?.statistics?.likeCount)}`}</p>
 											</button>
 											<div className='bgGray h-full py-1 '><div className='vert h-full'></div></div>
 											<button
@@ -139,7 +148,7 @@ function Video() {
 							<Des text={video?.video[0]?.snippet?.description} />
 						</div>
 					</section>
-					<section className={`sug min-w-md pt-8 ${isSizeSmall ? "" : "hidden"}`}>
+					<section className={`sug pt-8 ${isSizeSmall ? "" : "hidden"}`}>
 						{/* <div className='w-full flex smallT w500'>
 							<button className='flex h-9 gap-2 px-4 py-2 bgWhite text-black rounded-l-full'>
 								<img className='h-4.5' src={stick} alt="" />
@@ -172,9 +181,9 @@ function Video() {
 						<button className='w-full py-1 border border-[var(--border-muted)] rounded-full text-[var(--primary)]'>Show more</button>
 					</section>
 					<section className=''>
-						<div className='py-8'>
+						<div className='pt-9'>
 							<h2>Comments </h2>
-							<div className='flex justify-between pt-6'>
+							{/* <div className='flex justify-between pt-6'>
 								<div className='flex gap-2'>
 									<button className='flex items-center gap-2 px-4 py-1 rounded-lg bgWhite text-black'><StickIcon fill='var(--bg)' /><p className='smallT w500'>Top</p></button>
 									<button className='px-4 py-1 rounded-lg borderG'><p className='smallT w500'>Most Liked</p></button>
@@ -182,28 +191,27 @@ function Video() {
 									<button className='px-4 py-1 rounded-lg borderG'><p className='smallT w500'>Timed</p></button>
 									<button className='px-4 py-1 rounded-lg borderG'><p className='smallT w500'>Topics</p></button>
 								</div>
-								<search className='w-1/3 flex gap-2 px-4 py-1.5 borderG rounded-full'><SearchIcon fill={"var(--highlight)"} /><span className='gText'>Search comments</span></search>
-							</div>
+							</div> */}
 						</div>
 						<div>
 							<div className='py-2'>
 								{video?.comments.map((comment) => (
 									<div className='py-5' key={comment.id}>
-										<div className='flex '>
+										<div className='flex'>
 											{comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl ? <div className='min-h-12 max-h-12 min-w-12 max-w-12 rounded-full overflow-hidden'><img src={comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl} alt="" /></div> : <div className='min-h-12 max-h-12 min-w-12 max-w-12 bgGray rounded-full'></div>}
-											<div className='pl-2'>
-												<div className='flex gap-2'>
-													<div className='smallT  pb-2.5'>
+											<div className='pl-2 max-w-[dvw-.3rem] spC overflow-x-auto'>
+												<div className='flex gap-2 items-center pb-2.5'>
+													<div className='smallT '>
 														{comment?.snippet.topLevelComment?.snippet.authorDisplayName}
 													</div>
 													<span className='ssmallT gText'>{convertDate(comment?.snippet.topLevelComment?.snippet.publishedAt)}</span>
 												</div>
-												<div className='pb-2.5'>
+												<div className='pb-2.5  '>
 													{comment?.snippet.topLevelComment?.snippet.textDisplay}
 												</div>
 											</div>
 										</div>
-										<div className='flex gap-6 pl-14 py-1  smallT'>
+										<div className='flex gap-4 pl-14 py-1  smallT'>
 											<div className='flex items-center'>
 												<button
 													className='h-8 flex items-center gap-2 px-4 rounded-l-full bgGray'
@@ -243,7 +251,7 @@ function Video() {
 						</div>
 					</section>
 				</div>
-				<section className={`sidSug min-w-md netHight overflow-y-auto sticky top-0 ${isSizeSmall ? "hidden" : ""}`}>
+				<section className={`sidSug min-w-md max-w-lg netHight overflow-y-auto sticky top-0 ${isSizeSmall ? "hidden" : ""}`}>
 					{/* <div className='w-full flex smallT w500'>
 							<button className='flex h-9 gap-2 px-4 py-2 bgWhite text-black rounded-l-full'>
 								<img className='h-4.5' src={stick} alt="" />
@@ -261,7 +269,7 @@ function Video() {
 						{/* <h2 className='smallT w500'>From {video.video[0]?.snippet?.channelTitle}</h2> */}
 
 						{video?.suggestions?.map((vid) => (
-							<div className='flex pb-4 ' key={vid.id.videoId} >
+							<div className='flex gap-2 pb-4 ' key={vid.id.videoId} >
 								<VideoCard
 									id={vid.id.videoId}
 									title={vid?.snippet?.title}
@@ -269,8 +277,6 @@ function Video() {
 									channelName={vid?.snippet?.channelTitle}
 									// views={vid?.statistics.viewCount}
 									publishedAt={vid?.snippet?.publishedAt}
-									d={false}
-									l={true}
 								/>
 							</div>
 						))}
