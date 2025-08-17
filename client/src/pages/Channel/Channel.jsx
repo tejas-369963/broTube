@@ -52,7 +52,7 @@ function Channel() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get(`http://localhost:5000/api/v1/channel/${"UCPjaNv8GlIamrxCbqincG_g"}`, { withCredentials: true })
+				const res = await axios.get(`http://brotube-server.onrender.com/api/v1/channel/${"UCPjaNv8GlIamrxCbqincG_g"}`, { withCredentials: true })
 
 				setChannel(res.data.data.channelInfo)
 
@@ -118,7 +118,7 @@ function Channel() {
 
 		const fetchVideos = async () => {
 			try {
-				const res = await axios.post(`http://localhost:5000/api/v1/channel${videoTag}`, { data }, { withCredentials: true })
+				const res = await axios.post(`http://brotube-server.onrender.com/api/v1/channel${videoTag}`, { data }, { withCredentials: true })
 				if (active === "Videos")
 					setVideos(res.data.data.resData)
 				else if (active === "Playlists")

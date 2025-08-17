@@ -14,7 +14,7 @@ function ProfileCard() {
         console.log("h");
 
         try {
-            const res = await axios.get("http://localhost:5000/api/v1/user/logout", { withCredentials: "include" })
+            const res = await axios.get("http://brotube-server.onrender.com/api/v1/user/logout", { withCredentials: "include" })
 
             console.log("-->", res);
 
@@ -27,13 +27,13 @@ function ProfileCard() {
 
     const switchHandler = async () => {
 
-        const res = await axios.get("http://localhost:5000/api/v1/user/logout", { withCredentials: "include" })
+        const res = await axios.get("http://brotube-server.onrender.com/api/v1/user/logout", { withCredentials: "include" })
 
         if (!res) throw new ApiError(500, "Couldn't logout user")
 
         dispatch(logout())
 
-        window.location.href = "http://localhost:5000/api/v1/user/google"
+        window.location.href = "http://brotube-server.onrender.com/api/v1/user/google"
 
     }
 
