@@ -4,16 +4,26 @@ import {LocalStorage} from '../utils'
 const localToken = LocalStorage.get("nextPageToken")
 
 const nextPageTokenSlice = createSlice({
-    name: "token",
-    initialState: {token: localToken},
-    reducers: {
-        updateToken: (state, action) => {
-            state.token = action.payload
-            LocalStorage.set("nextPageToken", action.payload)
-        }
-    }
+	name: "token",
+	initialState: {
+		vToken: localToken, 
+		sToken: null,
+		cToken: null,
+	},
+	reducers: {
+		updateVToken: (state, action) => {
+			state.vToken = action.payload
+			LocalStorage.set("nextPageToken", action.payload)
+		},
+		updateSToken: (state, action) => {
+			state.sToken = action.payload
+		},
+		updateCToken: (state, action) => {
+			state.cToken = action.payload
+		}
+	}
 })
 
-export const {updateToken} = nextPageTokenSlice.actions
+export const {updateVToken, updateSToken, updateCToken} = nextPageTokenSlice.actions
 
 export default nextPageTokenSlice.reducer

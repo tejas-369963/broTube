@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { 
-    getChannelInfo, 
-    getChannelPlaylists, 
-    getChannelVideos,  
+	getChannelInfo, 
+	getChannelPlaylists, 
+	getChannelVideos,  
 } from '../controllers/channel.controller.js'
 
 const router = Router()

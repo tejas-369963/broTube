@@ -5,6 +5,7 @@ import VideoListCard from '../../components/VideoListCard'
 import ListCover from '../../components/ListCover'
 import Circle from '../../icons/Circle'
 import { Down_svg, SearchIcon } from '../../icons'
+import Loader from '../../components/Loader'
 
 function LikedVideos() {
 
@@ -22,7 +23,7 @@ function LikedVideos() {
 	useEffect(() => {
 		const fetchVideos = async () => {
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/playlist/LL", { withCredentials: true })
+				const res = await axios.get("http://localhost:5000/api/v1/playlist/LL", { withCredentials: true })
 				setVideos(res.data)
 				console.log(res.data);
 			} catch (err) {
@@ -36,12 +37,12 @@ function LikedVideos() {
 
 	}, [])
 
-	return !user ? <div className='w-full h-full flex flex-col justify-center items-center'><h1>Login to see</h1> <h2>Liked Videos</h2></div> 
-	:  loading ? <div className='w-full h-full text-center flex justify-center items-center'><h1>Loading</h1></div>
+	return user === null ? <div className='w-full h-full flex flex-col justify-center items-center'><h1>Login to see</h1> <h2>Liked Videos</h2></div> 
+	:  loading ? <Loader />
 		: (
 			<>
 				{videos.length ?
-					<div className='w-full h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
+					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
 						<ListCover
 							className={"p-6 rounded-3xl border border-[var(--border-muted)]"}
 							id={videos[0]?.id}

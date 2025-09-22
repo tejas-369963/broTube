@@ -6,13 +6,13 @@ import sBarToggleSlice from './sBarToggleSlice.js'
 import nextPageTokenSlice from './nextPageTokenSlice.js'
 
 const store = configureStore({
-    reducer: {
-        auth: authSlice,
-        videos: videoSlice,
-        video: currentVideoSlice,
-        sidebar: sBarToggleSlice,
-        token: nextPageTokenSlice
-    }
+	reducer: {
+		auth: authSlice,
+		videos: videoSlice,
+		video: currentVideoSlice,
+		sidebar: sBarToggleSlice,
+		token: nextPageTokenSlice
+	}
 })
 
 export default store

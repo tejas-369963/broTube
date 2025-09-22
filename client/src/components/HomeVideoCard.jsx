@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Tick, Dots } from '../../icons'
-import { convertDate, convertDuration, convertViews } from '../../utils/convertStuff'
+import { Tick, Dots } from '../icons'
+import { convertDate, convertDuration, convertViews } from '../utils/convertStuff'
 const t = (ti, d,) => {
 
 	if (d && ti.length > 54)
@@ -22,7 +22,8 @@ function HomeVideoCard({
 	views = "",
 	publishedAt = "",
 	duration = "",
-	d = true
+	d = true,
+	v = false
 }) {
 
 	views = convertViews(views)
@@ -33,46 +34,44 @@ function HomeVideoCard({
 
 	return (
 		<>
-			<Link to={`/watch/v=${id}`}>
-				<div className={` relative cov ${d ? "rounded-xl" : "max-w-42 max-h-24.75 rounded-md"} overflow-hidden aspect-video `}>
+			<Link to={`/watch/v=${id}`} className=''>
+				<div className={` relative cov mb-3 max-w-md ${!v ? "rounded-xl mb-2" : "w-42 rounded-md"} overflow-hidden aspect-video `}>
 					<img className='h-full w-full object-cover ' src={thumbnail} alt="" />
 					<div className='absolute right-1 bottom-1 px-1 bg-[var(--bg-darkDim)] rounded-sm ssmallT'>{duration}</div>
 				</div>
 			</Link>
 
-			<div className={`w-full flex  justify-between  ${d ? "py-3" : ""} gText`}>
+			<div className={`w-full flex  justify-between gText`}>
 				<div className='flex gap-2 grow'>
 
 					{channelProfile ?
 						<Link
 							to={`/${customUrl}`}
-							className='min-w-12 cursor-pointer'>
+							className='min-w-12 mt-1 cursor-pointer'>
 							<img className='h-10.5 rounded-full' src={channelProfile} alt="" />
 						</Link>
 						: ""
 					}
 
-					<div className='flex flex-col  w-full'>
-						<h3 className='w-full min-h-4 max-h-14 overflow-hidden ln wText '>{title}</h3>
+					<div className='flex flex-col w-full'>
+						{v ? <h4 className='w-full min-h-6 max-h-12 overflow-hidden ln wText '>{title}</h4> : <h3 className='w-full min-h-7 max-h-15 overflow-hidden ln wText '>{title}</h3>}
 
 						<div className='smallT '>
-							<Link
-								to={`/${customUrl}`}
-								className='flex items-center'>
-								<span className='pr-2 max-w-[calc(93%)] h-6 overflow-hidden hover:text-[var(--text)]'>{channelName}</span>
+							<div className='flex items-center'>
+							<Link to={`/${customUrl}`}><span className={`pr-2 max-w-[calc(93%)] overflow-hidden hover:text-[var(--text)] ${v ? "text-[.75rem] h-5" : "h-6"}`}>{channelName}</span></Link>
 								<Tick fill="var(--text-muted)" />
-							</Link>
+							</div>
 
-							<div className="">
+							<div className={`${v ? "text-[.75rem]" : ""}`}>
 								<span>{views} {views ? "views •" : ""} </span>
 								<span> {publishedAt}</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				{d ? <div className='h-6.5 rounded-full cursor-pointer'>
+				{/* <div className='h-6.5 rounded-full cursor-pointer'>
 					<Dots fill="var(--text)" />
-				</div> : ""}
+				</div> */}
 			</div>
 		</>
 	)

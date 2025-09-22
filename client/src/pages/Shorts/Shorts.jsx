@@ -2,9 +2,9 @@
 
 function Shorts() {
   return (
-    <div>
-      Shorts
-    </div>
+	<div>
+	  Shorts
+	</div>
   )
 }
 

@@ -1,10 +1,10 @@
 import {Router} from 'express'
 import {
-    gamingVideos,
-    musicVideos,
-    sportsVideos,
-    trendingVideos,
-    vlogVideos,
+	gamingVideos,
+	musicVideos,
+	sportsVideos,
+	trendingVideos,
+	vlogVideos,
 } from '../controllers/explore.controller.js'
 
 const router = Router()

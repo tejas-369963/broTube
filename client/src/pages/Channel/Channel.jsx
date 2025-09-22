@@ -3,7 +3,7 @@ import Loader from "../../components/Loader"
 import axios from "axios"
 import { convertDateToString, convertViews } from "../../utils/convertStuff"
 import { SearchIcon, StickIcon, Tick, ViIcon } from "../../icons"
-import VideoCard from "../../components/HomeVideoCard/HomeVideoCard"
+import VideoCard from "../../components/HomeVideoCard"
 import { nanoid } from "@reduxjs/toolkit"
 import { Link } from "react-router-dom"
 import ListCover from "../../components/ListCover"
@@ -40,7 +40,7 @@ function Channel() {
 	const [videoTag, setVideoTag] = useState("")
 	const [active, setActive] = useState("Home")
 	const [videos, setVideos] = useState([])
-	const [data, setData] = useState({})
+	const [id, setId] = useState({})
 	const [playlists, setPlaylists] = useState([])
 	const [loading, setLoading] = useState(true)
 	const [initLoading, setInitLoading] = useState("init")
@@ -52,9 +52,12 @@ function Channel() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get(`https://brotube-server.onrender.com/api/v1/channel/${"UCPjaNv8GlIamrxCbqincG_g"}`, { withCredentials: true })
+				const res = await axios.get(`http://localhost:5000/api/v1/channel/${"UCPjaNv8GlIamrxCbqincG_g"}`, { withCredentials: true })
 
 				setChannel(res.data.data.channelInfo)
+
+				console.log(res.data);
+				
 
 				// const user = res.data.data?.userInfo
 
@@ -86,8 +89,8 @@ function Channel() {
 			url: "/playlists"
 		},
 		// {
-		// 	tag: "About",
-		// 	url: "/vlog"
+		//	 tag: "About",
+		//	 url: "/vlog"
 		// },
 	]
 
@@ -98,15 +101,15 @@ function Channel() {
 				break;
 			case "Videos":
 				setVideoTag("/videos")
-				setData({ uploadsId: channel.contentDetails.relatedPlaylists.uploads })
+				setId({ id: channel.contentDetails.relatedPlaylists.uploads })
 				break;
 			case "Playlists":
 				setVideoTag("/playlists")
-				setData({ channelId: channel.id })
+				setId({ id: channel.id })
 				break;
 			// case "About":
-			// 	setVideoTag("/about")
-			// 	break;
+			//	 setVideoTag("/about")
+			//	 break;
 
 			default:
 				break;
@@ -118,7 +121,7 @@ function Channel() {
 
 		const fetchVideos = async () => {
 			try {
-				const res = await axios.post(`https://brotube-server.onrender.com/api/v1/channel${videoTag}`, { data }, { withCredentials: true })
+				const res = await axios.post(`http://localhost:5000/api/v1/channel${videoTag}`, { id: id.id }, { withCredentials: true })
 				if (active === "Videos")
 					setVideos(res.data.data.resData)
 				else if (active === "Playlists")

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Header from './components/Header/Header'
-import Sidebar from './components/Sidebar/Sidebar'
+import Sidebar from './components/Sidebar'
 import { Outlet, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Header from './components/Header'
 
 function App() {
 
@@ -15,11 +15,11 @@ function App() {
 
 	useEffect(() => {
 		if(window.matchMedia("(max-width: 1300px)").matches || v){
-            setIsToggled(toggle)
-        }
-        else {
-            setIsToggled(false)
-        }
+			setIsToggled(toggle)
+		}
+		else {
+			setIsToggled(false)
+		}
 	}, [toggle])
 
 	const [isSizeSmall, setIsSizeSmall] = useState(window.matchMedia("(max-width: 639px)").matches)
@@ -42,14 +42,14 @@ function App() {
 
 	window.addEventListener("resize", resizeHandler)
 	
-    window.addEventListener("resize", () => setIsToggled(false))
+	window.addEventListener("resize", () => setIsToggled(false))
 
 	return (
 		<>
 			<Header />
-			<div className={`netHight flex gap-6.75 mr-0.5`}>
+			<div className={`netHight flex gap-4 mr-0.5`}>
 				<Sidebar />
-				<main className={`overflow-x-hidden mx-auto ${ isToggled && !isSizeSmall ? "pl-24" : ""} ${ isSizeSmall ? "pl-2 pr-2" : "pr-4.5"}`}>
+				<main className={`overflow-x-hidden max-w-[117rem] mx-auto ${ isToggled && !isSizeSmall ? "pl-27.25" : ""} ${ isSizeSmall ? "pl-2 pr-2" : "pr-6"}`}>
 					<Outlet />
 				</main>
 			</div>

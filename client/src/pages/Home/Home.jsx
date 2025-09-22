@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import VideoCard from '../../components/HomeVideoCard/HomeVideoCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../Store/authSlice'
 import axios from 'axios'
-import { data } from 'react-router-dom'
-import { updateToken } from '../../Store/nextPageTokenSlice'
+import { updateVToken } from '../../Store/nextPageTokenSlice.js'
 import Loader from '../../components/Loader'
+import HomeVideoCard from '../../components/HomeVideoCard.jsx'
 
 function Home() {
 
@@ -15,7 +14,7 @@ function Home() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
+				const res = await axios.get("http://localhost:5000/api/v1/user/loggedIn", { withCredentials: true })
 				console.log(res.data);
 
 				const user = res.data.data?.userInfo
@@ -33,19 +32,19 @@ function Home() {
 
 	}, [])
 
-	const [videos, setVideos] = useState([])
+	const [videos, setVideos] = useState(null)
 	const [loading, setLoading] = useState(false)
 	const [initLoading, setInitLoading] = useState("init")
-	const nextPageToken = useSelector(state => state.token.token)
+	const nextPageToken = useSelector(state => state.token.vToken)
 	
 	const fetchVideos = (async () => {
 		if(loading) return
 		setLoading(true)
 		if(initLoading === "init") setInitLoading(true)
 		try {
-			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
+			const res = await axios.get(`http://localhost:5000/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
 			setVideos(prev => [...prev, ...res.data.resData])
-			dispatch(updateToken(res.data.nextPageToken || ""))	
+			dispatch(updateVToken(res.data.nextPageToken || null ))	
 			console.log(videos);
 			
 		} catch (err) {
@@ -63,7 +62,7 @@ function Home() {
 	useEffect(() => {
 		const observer = new IntersectionObserver(([entry]) => {
 			if(entry.isIntersecting && nextPageToken && !loading){
-				fetchVideos(nextPageToken)
+				fetchVideos()
 			}
 		})
 		const sentinel = document.getElementById("scroll-sentinel")
@@ -78,7 +77,7 @@ function Home() {
 			<div className='vc w-full gap-x-4 gap-y-8'>
 				{videos?.map((video) => (
 					<div key={video.id}>
-						<VideoCard
+						<HomeVideoCard
 							id={video.id}
 							title={video?.snippet?.title}
 							thumbnail={video?.snippet?.thumbnails.high.url}

@@ -5,13 +5,13 @@ const convertViews = (v) => {
 	const res = v;
 
 	if (v.length > 9) {
-		return `${v.slice(0, v.length - 9)}${v.length - 9 < 2 ? `.${v[1]}` : ""}B`
+		return `${v.slice(0, v.length - 9)}${v.length - 9 < 2 ? v[1] == 0 || (v[1] < 5 && v[2] != 0) ? `.${v[1]}${v[2]}` : `.${v[1]}` : ""}B`
 	}
 	else if (v.length > 6) {
-		return `${v.slice(0, v.length - 6)}${v.length - 6 < 2 ? `.${v[1]}` : ""}M`
+		return `${v.slice(0, v.length - 6)}${v.length - 6 < 2 ? v[1] == 0 || (v[1] < 5 && v[2] != 0) ? `.${v[1]}${v[2]}` : `.${v[1]}` : ""}M`
 	}
 	else if (v.length > 3) {
-		return `${v.slice(0, v.length - 3)}${v.length - 3 < 2 ? `.${v[1]}` : ""}K`
+		return `${v.slice(0, v.length - 3)}${v.length - 3 < 2 ? v[1] == 0 || (v[1] < 5 && v[2] != 0) ? `.${v[1]}${v[2]}` : `.${v[1]}` : ""}K`
 	}
 
 	return res
@@ -72,12 +72,16 @@ const convertDateToString = (d) => {
 
 const convertDuration = (d) => {
 
-	const aD = d.slice(2, d.length - 1)
+	let aD = d.slice(2, d.length)
 
 	let h, m, s, temp
+	
+	if(aD.includes("S"))
+		aD = aD.slice(0, aD.length - 1)
 
 	if (aD.includes("M")) {
 		temp = aD.split("M")
+		
 		if (temp[0].includes("H")) {
 			const tempH = temp[0].split("H")
 			h = tempH[0]
