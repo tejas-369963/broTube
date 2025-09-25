@@ -13,7 +13,7 @@ import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const clickHandler = () => {
-	window.location.href = "http://localhost:5000/api/v1/user/google"
+	window.location.href = "https://brotube-server.onrender.com/api/v1/user/google"
 }
 
 const getDeviceType = () => {
@@ -95,7 +95,7 @@ function Header() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get("http://localhost:5000/api/v1/user/loggedIn", { withCredentials: true })
+				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
 				// console.log(res.data);
 
 				const user = res.data.data?.userInfo

@@ -15,7 +15,7 @@ function Suggestions({ tags, v= false }) {
 		setLoading(true)
 		if(initLoading === "init") setInitLoading(true)
 			try {
-		const res = await axios.post(`http://localhost:5000/api/v1/home/sug`, { tags })
+		const res = await axios.post(`https://brotube-server.onrender.com/api/v1/home/sug`, { tags })
 		setSuggestions(prev => [...prev, ...res.data.data.suggestions])
 		console.log("sug --->", res.data);
 

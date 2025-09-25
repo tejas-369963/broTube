@@ -20,7 +20,7 @@ function Playlist() {
 	useEffect(() => {
 		const fetchVideos = async () => {
 			try {
-				const res = await axios.post(`http://localhost:5000/api/v1/playlist/p`, { pId }, { withCredentials: true })
+				const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p`, { pId }, { withCredentials: true })
 				setPlaylists(res.data || [])
 				console.log(res);
 

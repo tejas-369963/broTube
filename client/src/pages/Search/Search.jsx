@@ -22,8 +22,9 @@ function Search() {
 		if (initLoading === "init") setInitLoading(true)
 		try {
 
-			const res = await axios.get(`http://localhost:5000/api/v1/search?q=${encodeURIComponent(qu)}`, { withCredentials: true })
-			console.log("sug --->", res.data);
+			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/search?q=${encodeURIComponent(qu)}`, { withCredentials: true })
+			console.log("sug --->", res.data.data.suggestions);
+			setSuggestions(res.data.data.suggestions)
 
 		} catch (error) {
 			console.error('Failed to fetch suggestion:', error.message)
