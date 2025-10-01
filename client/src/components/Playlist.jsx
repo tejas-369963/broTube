@@ -39,7 +39,7 @@ function Playlist() {
 				{videos.length ?
 					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
 						{videos?.map((video) => (
-							<div className='sm:flex gap-3' key={video.id}>
+							<div className='sm:flex gap-4' key={video.id}>
 								<HomeVideoCard
 									id={video.contentDetails.videoId}
 									title={video?.snippet?.title}

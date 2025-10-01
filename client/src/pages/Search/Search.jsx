@@ -46,32 +46,19 @@ function Search() {
 			<div className='max-w-7xl mx-auto gap-x-4 gap-y-8'>
 				{suggestions?.map((video) => (
 					<>
-						<div className='pb-4 max-sm:hidden' key={video.id}>
-							<VideoListCard
+						<div className='sm:flex gap-4 pb-6' key={video.id}>
+							<HomeVideoCard
 								id={video.contentDetails.videoId}
 								title={video?.snippet?.title}
 								thumbnail={video?.snippet?.thumbnails?.high?.url}
-								customUrl={video?.chDetails?.snippet?.customUrl}
+								channelId={video?.chDetails.id}
 								channelProfile={video?.chDetails?.snippet?.thumbnails?.default?.url}
 								channelName={video?.snippet?.channelTitle}
 								views={video.statistics?.viewCount}
 								likes={video.statistics?.likeCount}
 								publishedAt={video?.snippet?.publishedAt}
 								duration={video.contentDetails?.duration}
-								s={true}
-							/>
-						</div>
-						<div className='pb-4 sm:hidden' key={video.id}>
-							<HomeVideoCard
-								id={video.id}
-								title={video?.snippet?.title}
-								thumbnail={video?.snippet?.thumbnails.high.url}
-								customUrl={video?.chDetails?.snippet.customUrl}
-								channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
-								channelName={video?.snippet?.channelTitle}
-								views={video?.statistics.viewCount}
-								publishedAt={video?.snippet?.publishedAt}
-								duration={video.contentDetails?.duration}
+								ply={true}
 							/>
 						</div>
 					</>

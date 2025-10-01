@@ -110,8 +110,6 @@ const getSuggestions = asyncHandler(async (req, res) => {
 
 		const { tags } = req.body
 
-		console.log("tags", tags);
-
 		const suggestionsRes = await youtube.search.list({
 			part: "snippet",
 			q: tags || "trending",

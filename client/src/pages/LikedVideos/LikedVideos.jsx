@@ -6,14 +6,9 @@ import ListCover from '../../components/ListCover'
 import Circle from '../../icons/Circle'
 import { Down_svg, Like_svg, LikeIcon, SearchIcon } from '../../icons'
 import Loader from '../../components/Loader'
+import HomeVideoCard from '../../components/HomeVideoCard'
 
 function LikedVideos() {
-
-	// const dispatch = useDispatch()
-
-	// const user = document.cookie
-
-	// if (user) dispatch(login(user))
 
 	const [videos, setVideos] = useState([])
 	const [loading, setLoading] = useState(true)
@@ -43,13 +38,13 @@ function LikedVideos() {
 			<>
 				{videos.length ?
 					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
-						<div className='flex items-center gap-4 '>
-							<Like_svg className='w-12 h-12 rounded-full flex items-center justify-center bg-[var(--primary)]' isActive={true} fill={"black"}/>
+						<div className='flex items-center gap-4 pt-4'>
+							<Like_svg className='w-11 h-11 rounded-full flex items-center justify-center bg-[var(--primary)]' isActive={true} fill={"black"}/>
 							<h1>Liked Videos</h1>
 						</div>
 						{videos?.map((video) => (
-							<div className='' key={video.id}>
-								<VideoListCard
+							<div className='sm:flex gap-4' key={video.id}>
+								<HomeVideoCard
 									id={video.contentDetails.videoId}
 									title={video?.snippet?.title}
 									thumbnail={video?.snippet?.thumbnails?.high?.url}
@@ -60,6 +55,7 @@ function LikedVideos() {
 									likes={video.vDetails?.statistics?.likeCount}
 									publishedAt={video?.contentDetails?.videoPublishedAt}
 									duration={video.vDetails?.contentDetails?.duration}
+									ply={true}
 								/>
 							</div>
 						))}

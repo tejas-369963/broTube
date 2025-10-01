@@ -14,8 +14,9 @@ function Subs() {
 	const [videos, setVideos] = useState(null)
 	const [loading, setLoading] = useState(false)
 	const [initLoading, setInitLoading] = useState("init")
-	const user = useSelector(state => state.auth.userData)
 	const [nextPageToken, setNextPageToken] = useState("")
+
+	const user = useSelector(state => state.auth.userData)
 
 	const fetchSubs = (async () => {
 		if (loading) return
@@ -94,7 +95,7 @@ function Subs() {
 		}
 	}
 
-	return user === null ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Subscriptions</h2></div>
+	return !loading &&  user === null ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Subscriptions</h2></div>
 		: initLoading ? <Loader />
 			: (
 				<div className='max-w-7xl mx-auto'>
