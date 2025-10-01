@@ -13,7 +13,7 @@ import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const clickHandler = () => {
-	window.location.href = "https://brotube-server.onrender.com/api/v1/user/google"
+	window.location.href = "http://localhost:5000/api/v1/user/google"
 }
 
 const getDeviceType = () => {
@@ -206,7 +206,7 @@ function Header() {
 							onChange={(e) => setSearchQuery(e.target.value)}
 							onKeyDown={handleKeyPress}
 						/>
-						{device === "desktop"? <div className='flex gap-1 pr-4'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> : ""}
+						{device === "desktop"? <div className='flex gap-1 pr-4 max-[51rem]:hidden'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> : ""}
 					</form>
 				</div>
 				{
