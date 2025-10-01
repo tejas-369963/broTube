@@ -45,7 +45,7 @@ function Home() {
 			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
 			setVideos(prev => [...prev, ...res.data.resData])
 			dispatch(updateVToken(res.data.nextPageToken || null ))	
-			console.log(videos);
+			console.log(res.data.resData);
 			
 		} catch (err) {
 			console.error('Failed to fetch video:', err.message);
@@ -81,7 +81,7 @@ function Home() {
 							id={video.id}
 							title={video?.snippet?.title}
 							thumbnail={video?.snippet?.thumbnails.high.url}
-							customUrl={video?.chDetails?.snippet.customUrl}
+							customUrl={video?.chDetails.id}
 							channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
 							channelName={video?.snippet?.channelTitle}
 							views={video?.statistics.viewCount}

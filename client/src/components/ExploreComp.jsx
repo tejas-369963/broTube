@@ -8,7 +8,7 @@ import HomeVideoCard from './HomeVideoCard'
 function ExportComp({Icon, title, trending, navItems, className}) {
 
 	const [active, setActive] = useState("Now")
-	const [videos, setVideos] = useState()
+	const [videos, setVideos] = useState([])
 
 	useEffect(() => {
 		switch (active) {
@@ -56,7 +56,7 @@ function ExportComp({Icon, title, trending, navItems, className}) {
 							id={video.id}
 							title={video?.snippet?.title}
 							thumbnail={video?.snippet?.thumbnails.high.url}
-							customUrl={video?.chDetails?.snippet.customUrl}
+							channelId={video?.chDetails.id}
 							channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
 							channelName={video?.snippet?.channelTitle}
 							views={video?.statistics.viewCount}
@@ -66,6 +66,7 @@ function ExportComp({Icon, title, trending, navItems, className}) {
 						/>
 					</div>
 				))}
+				
 			</div>
 		</div>
 	)

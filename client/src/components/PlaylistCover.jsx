@@ -70,9 +70,6 @@ function PlaylistCover({
 						</div>
 					</div>
 				</div>
-				{d ? <div className='h-6.5 rounded-full cursor-pointer'>
-					<Dots fill="var(--text)" />
-				</div> : ""}
 			</div>
 		</>
 	)

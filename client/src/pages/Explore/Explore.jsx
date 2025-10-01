@@ -87,7 +87,7 @@ function Explore() {
 	  <div className='w-full h-full overflow-y-scroll '>
 		<div className='w-full'>
 		  <div className='flex justify-between items-center p-6 pb-3'>
-			<div className='flex items-center gap-6'>
+			<div className='flex items-center gap-4'>
 			  <Trending_svg fill={"var(--bg)"} />
 			  <h1>{"Trending"}</h1>
 			</div>
@@ -108,7 +108,7 @@ function Explore() {
 					id={video.id}
 					title={video.snippet?.title}
 					thumbnail={video?.snippet?.thumbnails.high.url}
-					customUrl={video?.chDetails?.snippet.customUrl}
+					channelId={video?.chDetails.id}
 					channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
 					channelName={video?.snippet?.channelTitle}
 					views={video?.statistics.viewCount}

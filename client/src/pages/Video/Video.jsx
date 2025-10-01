@@ -32,6 +32,8 @@ function Video() {
 
 	const dispatch = useDispatch()
 
+	dispatch(toggle(false));
+
 	const [video, setVideo] = useState({})
 	const [loading, setLoading] = useState(false)
 	const [initLoading, setInitLoading] = useState("init")
@@ -55,8 +57,6 @@ function Video() {
 		}
 		fetchVideo()
 	}, [vId])
-
-	// dispatch(toggle(false));
 
 	const [isSizeSmall, setIsSizeSmall] = useState(window.matchMedia("(max-width: 1280px)").matches)
 
@@ -93,52 +93,34 @@ function Video() {
 							<div className='flex flex-wrap gap-4'>
 								<div className='flex grow justify-between gap-4 pt-4'>
 									<div className='h-12 flex gap-3'>
-										<Link className='flex' to={`/${video.channel[0]?.snippet.customUrl}`}><img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" /></Link>
+										<Link className='flex' to={`/ch=${video.channel[0]?.id}`}><img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" /></Link>
 										<div className=''>
 											<div className='flex gap-2 items-center'>
-												<Link to={`/${video.channel[0]?.snippet.customUrl}`}><h3 className=''>{video.video[0]?.snippet?.channelTitle}</h3></Link>
+												<Link to={`/ch=${video.channel[0]?.id}`}><h3 className=''>{video.video[0]?.snippet?.channelTitle}</h3></Link>
 												<Tick fill="var(--text-muted)" />
 											</div>
 											<p className='gText smallT'>{`${convertViews(video?.channel[0]?.statistics?.subscriberCount)} subscribers`}</p>
 										</div>
-										<button className='h-10 my-auto px-6 py-2 ml-2 rounded-full prime text-black w500'>Subscribe</button>
 									</div>
 								</div>
-								<div className='flex items-center gap-4 pt-4 exs overflow-x-auto'>
-									<div className='flex gap-2'>
-										<div className='flex items-center'>
-											<button
-												className='h-10 flex items-center gap-2 px-6 py-2 rounded-l-full bgGray'
-											>
-												<Like_svg stroke='var(--svgHi)' />
-												<p>{`${convertViews(video?.video[0]?.statistics?.likeCount)}`}</p>
-											</button>
-											<div className='bgGray h-full py-1 '><div className='vert h-full'></div></div>
-											<button
-												className='h-10 flex items-center gap-2 px-6 py-2 rounded-r-full bgGray'
-											>
-												<DisLikeIcon stroke='var(--svgHi)' />
-											</button>
-										</div>
-										<button>
-											<ShareIcon className='bgGray p-2 min-h-10 min-w-10 rounded-full' stroke='var(--svgHi)' />
-										</button>
-										<button>
-											<AddIcon className='bgGray p-2 min-h-10 min-w-10 rounded-full' fill='var(--svgHi)' />
-										</button>
-										<button>
-											<Watch_svg className='bgGray p-2 min-h-10 min-w-10 rounded-full' fill='var(--svgHi)' stroke={'var(--svgHi)'} />
-										</button>
-										<button>
-											<DotsIcon className='bgGray p-2 min-h-10 min-w-10 rounded-full' fill='var(--svgHi)' />
-										</button>
+								<div className='flex gap-3 pb-3'>
+									<div className='flex items-center gap-1'>
+										<ViIcon fill='var(--highlight)' />
+										<span className=' text-[var(--text-muted)]'>{`${convertViews(video?.video[0]?.statistics.viewCount)}`}</span>
+									</div>
+									<div className='flex items-center gap-1'>
+										<DateIcon fill='var(--highlight)' />
+										<span className=' text-[var(--text-muted)]'>{`${convertDateToString(video?.video[0]?.snippet?.publishedAt)}`}</span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div className='p-4 borderG rounded-2xl'>
-							<Des text={video?.video[0]?.snippet?.description} views={video?.video[0]?.statistics.viewCount} date={video?.video[0]?.snippet?.publishedAt}/>
-						</div>
+						{video?.video[0]?.snippet?.description
+							? <div className='p-4 borderG rounded-2xl'>
+								<Des text={video?.video[0]?.snippet?.description} />
+							</div>
+							: ""
+						}
 					</section>
 					<section className={`sug pt-8 ${isSizeSmall ? "" : "hidden"}`}>
 						<div className='pb-4'><h2>Related Videos</h2></div>

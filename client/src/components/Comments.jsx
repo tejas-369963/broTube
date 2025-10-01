@@ -1,7 +1,5 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { updateCToken } from "../Store/nextPageTokenSlice"
 import Loader from "./Loader"
 import { convertDate, convertViews } from "../utils/convertStuff"
 import { DisLikeIcon, Like_svg, ReplyIcon } from "../icons"
@@ -11,9 +9,7 @@ function Comments({vId}) {
 	const [comments, setComments] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [initLoading, setInitLoading] = useState("init")
-	const nextPageToken = useSelector(state => state.token.cToken)
-
-	const dispatch = useDispatch()
+	const [nextPageToken, setNextPageToken] = useState("")
 
 	const fetchComments = (async () => {
 		if(loading) return
@@ -23,7 +19,7 @@ function Comments({vId}) {
 		const res = await axios.post(`https://brotube-server.onrender.com/api/v1/home/com?pageToken=${nextPageToken || ""}`, { vId })
 		setComments(prev => [...prev, ...res.data.data.comments])
 		console.log("comm --->", res.data);
-		dispatch(updateCToken(res.data.data.nextPageToken || null))
+		setNextPageToken(res.data.data.nextPageToken)
 
 		} catch (error) {
 			console.error('Failed to fetch suggestion:', error.message)
@@ -35,8 +31,10 @@ function Comments({vId}) {
 	})
 
 	useEffect(() => {
+		setNextPageToken("")
+		setComments([])
 		fetchComments()
-	}, [])
+	}, [vId])
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(([entry]) => {

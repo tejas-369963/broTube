@@ -4,7 +4,7 @@ import axios from 'axios'
 import VideoListCard from '../../components/VideoListCard'
 import ListCover from '../../components/ListCover'
 import Circle from '../../icons/Circle'
-import { Down_svg, SearchIcon } from '../../icons'
+import { Down_svg, Like_svg, LikeIcon, SearchIcon } from '../../icons'
 import Loader from '../../components/Loader'
 
 function LikedVideos() {
@@ -43,31 +43,10 @@ function LikedVideos() {
 			<>
 				{videos.length ?
 					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
-						<ListCover
-							className={"p-6 rounded-3xl border border-[var(--border-muted)]"}
-							id={videos[0]?.id}
-							title={"Liked Videos"}
-							thumbnail={videos[0]?.snippet?.thumbnails.high.url}
-							customUrl={videos[0]?.chDetails?.snippet.customUrl}
-							views={videos[0]?.statistics?.viewCount}
-							publishedAt={videos[0]?.snippet?.publishedAt}
-							total={videos.length}
-							
-						/>
-						{/* <div className='flex justify-between'>
-							<div className='flex items-center gap-4'>
-								<Circle />
-								<div className='flex items-center px-4 py-2 rounded-lg' style={{ backgroundColor: "var(--bg-light)", color: "var(--text-muted)" }}>
-									<span className='smallT' >Sort by:</span>
-									<span className='smallT pl-2 pr-3' style={{ color: "var(--text)" }}>Relevance</span>
-									<Down_svg fill={"var(--svgHi)"} />
-								</div>
-							</div>
-							<div className='flex items-center w-1/3 max-w-96 gap-4 px-4 py-1 rounded-full' style={{ backgroundColor: "var(--bg-light)" }}>
-								<SearchIcon fill='var(--highlight)' />
-								<span className='smallT' style={{ color: "var(--highlight)" }}>Search Playlist</span>
-							</div>
-						</div> */}
+						<div className='flex items-center gap-4 '>
+							<Like_svg className='w-12 h-12 rounded-full flex items-center justify-center bg-[var(--primary)]' isActive={true} fill={"black"}/>
+							<h1>Liked Videos</h1>
+						</div>
 						{videos?.map((video) => (
 							<div className='' key={video.id}>
 								<VideoListCard

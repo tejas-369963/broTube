@@ -37,22 +37,24 @@ function Playlists() {
 			<Loader />
 			:
 			(
-				<div className="max-w-7xl mx-auto ">
-					{playlists.map((playlist) => (
-						<Link to={`/playlists/p=${playlist.id}`} key={playlist.id}>
-							<ListCover
-								className={"p-6 "}
-								id={playlist?.id}
-								title={playlist.snippet.title}
-								thumbnail={playlist?.snippet?.thumbnails.medium.url}
-								customUrl={playlist?.chDetails?.snippet.customUrl}
-								views={playlist?.statistics?.viewCount}
-								publishedAt={playlist?.snippet?.publishedAt}
-								total={playlist.contentDetails.itemCount}
-								duration={99}
-							/>
-						</Link>
-					))}
+				<div className="max-w-7xl mx-auto">
+					<h1>All Play Lists</h1>
+					<div className=" pvc py-6">
+						{playlists.map((playlist) => (
+							<div key={playlist.id}>
+								<ListCover
+									id={playlist?.id}
+									title={playlist.snippet.title}
+									thumbnail={playlist?.snippet?.thumbnails.medium.url}
+									customUrl={playlist?.chDetails?.snippet.customUrl}
+									views={playlist?.statistics?.viewCount}
+									publishedAt={playlist?.snippet?.publishedAt}
+									total={playlist.contentDetails.itemCount}
+									duration={99}
+								/>
+							</div>
+						))}
+					</div>
 				</div>
 			)
 }

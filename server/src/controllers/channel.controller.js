@@ -65,6 +65,8 @@ const getChannelInfo = asyncHandler(async (req, res) => {
 
 const getChannelVideos = asyncHandler(async (req, res) => {
 
+	const pageToken = req.query.pageToken || ""
+
 	const { id, totalVideos = 12 } = req.body
 
 	try {
@@ -72,7 +74,7 @@ const getChannelVideos = asyncHandler(async (req, res) => {
 			part: "contentDetails",
 			playlistId: id,
 			maxResults: totalVideos,
-			// pageToken
+			pageToken
 		})
 
 		const videosId = videosRes.data.items.map(item => item.contentDetails.videoId)
@@ -97,13 +99,9 @@ const getChannelVideos = asyncHandler(async (req, res) => {
 			return { ...item, chDetails: ch }
 		})
 
-		// return res
-		//	 .status(200)
-		//	 .json({ resData, nextPageToken: videosRes.data.nextPageToken })
-
 		return res 
 			.status(200)
-			.json(new ApiResponse(200, { resData }, "Got channel videos"))
+			.json(new ApiResponse(200, { resData, nextPageToken: videosRes.data.nextPageToken }, "Got channel videos"))
 
 	} catch (error) {
 		console.log("Error: ", error.message);
@@ -123,28 +121,23 @@ const getChannelVideos = asyncHandler(async (req, res) => {
 
 const getChannelPlaylists = asyncHandler(async (req, res) => {
 
-	const { id } = req.body
+	const pageToken = req.query.pageToken || ""
 
-	console.log("-->",id);
-	
+	const { id } = req.body
 
 	try {
 		const playlistsRes = await youtube.playlists.list({
 			part: 'snippet, contentDetails',
 			channelId: id,
-			maxResults: 12,
-			// pageToken
+			maxResults: 20,
+			pageToken
 		});
 
 		const resData = playlistsRes.data.items
 
-		// return res
-		//	 .status(200)
-		//	 .json({ resData, nextPageToken: videosRes.data.nextPageToken })
-
 		return res
 			.status(200)
-			.json(new ApiResponse(200, { resData }, "Got channel playlists"))
+			.json(new ApiResponse(200, { resData, nextPageToken: playlistsRes.data.nextPageToken }, "Got channel playlists"))
 
 	} catch (error) {
 		console.log("Error: ", error.message);

@@ -137,9 +137,14 @@ function Sidebar() {
 
 	window.addEventListener("resize", resizHandler)
 
+	const sideHandler = (e) => {
+		if(e.target.tagName === "ASIDE")
+			dispatch(toggle(false));
+	}
+
 	return (
 		<>
-			<aside className={`h-full z-30 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`}>
+			<aside className={`h-full z-30 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`} onClick={(e) => sideHandler(e)}>
 				<nav className={`h-full mx-[-.2rem] ${isToggled ? "min-w-68 max-w-68" : "max-w-20.5 min-w-20.5"} sidT  smallT w500 bg-dark`}>
 					<ul className={`px-4 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
 						{navItems.map(({ name, Icon, url, dropDown }) => (

@@ -70,11 +70,6 @@ function Subs() {
 		}
 	}
 
-	const videosHandler = (e) => {
-
-
-	}
-
 	const dropDownHandler = (e, id) => {
 		if (e.parentNode.previousSibling) {
 			setVideos(null)

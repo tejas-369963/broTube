@@ -38,7 +38,7 @@ const router = createBrowserRouter(
 			<Route path='/collections' element={<Collections />} />
 			<Route path='/subscriptions' element={<Subs />} />
 			<Route path='/watch/:v' element={<Video />} />
-			<Route path='/:c' element={<Channel />} />
+			<Route path='/:ch' element={<Channel />} />
 		</Route>
 	)
 )

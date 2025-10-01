@@ -17,15 +17,15 @@ const clickHandler = () => {
 }
 
 const getDeviceType = () => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    
-    if (/mobile|android|iphone|ipad|phone/i.test(userAgent)) {
-        return 'mobile';
-    } else if (/tablet|ipad/i.test(userAgent)) {
-        return 'tablet';
-    } else {
-        return 'desktop';
-    }
+	const userAgent = navigator.userAgent.toLowerCase();
+
+	if (/mobile|android|iphone|ipad|phone/i.test(userAgent)) {
+		return 'mobile';
+	} else if (/tablet|ipad/i.test(userAgent)) {
+		return 'tablet';
+	} else {
+		return 'desktop';
+	}
 }
 
 const profHandler = () => {
@@ -84,6 +84,8 @@ function Header() {
 	const navigate = useNavigate()
 
 	const isToggled = useSelector(state => state.sidebar.toggled)
+
+	const [searchToggle, setSearchToggle] = useState(false)
 
 	const sidebarToggle = () => {
 		dispatch(toggle(!isToggled))
@@ -162,11 +164,23 @@ function Header() {
 
 		navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
 
+		setSearchToggle(false)
+
+	}
+
+	const searchBlock = (e) => {
+		if(e.target.classList.contains("searchF"))
+			setSearchToggle(false)
+		
 	}
 
 	const handleKeyPress = (e) => {
 		if (e.key === "Enter")
 			handleSearch(e)
+	}
+
+	const searchHandler = () => {
+		setSearchToggle(!searchToggle)
 	}
 
 	const device = getDeviceType()
@@ -181,26 +195,28 @@ function Header() {
 						<h1 className='logoText' >BroTube</h1>
 					</Link>
 				</div>
-				<form onSubmit={handleSearch} className='w-2/6 flex items-center py-2 borderG rounded-full cursor-pointer max-sm:hidden'>
-					<SearchIcon className='mx-4' fill={"var(--highlight)"} />
-					<input
-						className=' grow mr-4 text-[var(--text)] bg-transparent outline-none'
-						type='text'
-						placeholder='Search'
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						onKeyDown={handleKeyPress}
-					/>
-					{device === "desktop" ? <div className='flex gap-1 pr-4'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> :  ""}
-				</form>
+				<div  className={`w- searchF ${searchToggle? "w-dvw h-dvh absolute left-0 top-0 pt-3 px-3 bg-[var(--bg-dim)] z-50 ": "w-2/5 max-w-2xl max-sm:hidden"}`}onClick={e => searchBlock(e)}>
+					<form onSubmit={handleSearch} className={`flex items-center py-2 borderG rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
+						<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
+						<input
+							className='grow mr-4 text-[var(--text)] bg-transparent outline-none'
+							type='text'
+							placeholder='Search'
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+							onKeyDown={handleKeyPress}
+						/>
+						{device === "desktop"? <div className='flex gap-1 pr-4'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> : ""}
+					</form>
+				</div>
 				{
 					loading ? <div className='w-20 ' />
 						:
 						<div className={`flex items-center pl-2 max-sm:gap-2`}>
+							<SearchIcon className='h-7.5 w-7.5 sm:hidden cursor-pointer' onClick={searchHandler} fill={"var(--highlight)"} />
 							{
 								user ?
 									<>
-										<SearchIcon className='h-7.5 w-7.5 sm:hidden' fill={"var(--highlight)"} />
 										{navItems.with.map(({ name, Icon }) => (
 											<div className='flex' key={name}>
 												{name === "Profile" ?

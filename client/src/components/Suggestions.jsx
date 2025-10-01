@@ -16,7 +16,7 @@ function Suggestions({ tags, v= false }) {
 		if(initLoading === "init") setInitLoading(true)
 			try {
 		const res = await axios.post(`https://brotube-server.onrender.com/api/v1/home/sug`, { tags })
-		setSuggestions(prev => [...prev, ...res.data.data.suggestions])
+		setSuggestions(res.data.data.suggestions)
 		console.log("sug --->", res.data);
 
 		} catch (error) {
@@ -30,7 +30,7 @@ function Suggestions({ tags, v= false }) {
 
 	useEffect(() => {
 		fetchSuggestions()
-	}, [])
+	}, [tags])
 
 	return initLoading ? <Loader /> : (
 		<>
@@ -39,10 +39,11 @@ function Suggestions({ tags, v= false }) {
 				{suggestions?.map((vid) => (
 						<div key={nanoid()} className={`${v ? "flex gap-2" : ""}`} >
 							<HomeVideoCard
-								id={vid.id.videoId}
+								id={vid.id}
 								title={vid?.snippet?.title}
 								thumbnail={vid?.snippet?.thumbnails.high.url} 
 								channelName={vid?.snippet?.channelTitle}
+								channelId={vid.snippet.channelId}
 								views={vid?.statistics.viewCount}
 								publishedAt={vid?.snippet?.publishedAt}
 								duration={vid.contentDetails?.duration}
@@ -51,7 +52,7 @@ function Suggestions({ tags, v= false }) {
 						</div>
 					))}
 			</div>
-			{v ? "" : <button className='w-full py-1.5 my-4 border border-[var(--border-muted)] rounded-full text-[var(--primary)] smallT'>Show more</button>}
+			{v ? "" : <div className='w-full my-4 border border-[var(--border-muted)]'/>}
 		</>
 	)
 }
