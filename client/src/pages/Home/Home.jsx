@@ -81,7 +81,7 @@ function Home() {
 							id={video.id}
 							title={video?.snippet?.title}
 							thumbnail={video?.snippet?.thumbnails.high.url}
-							customUrl={video?.chDetails.id}
+							channelId={video?.chDetails.id}
 							channelProfile={video?.chDetails?.snippet.thumbnails.default.url}
 							channelName={video?.snippet?.channelTitle}
 							views={video?.statistics.viewCount}
