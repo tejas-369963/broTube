@@ -95,7 +95,7 @@ function Subs() {
 		}
 	}
 
-	return !loading &&  user === null ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Subscriptions</h2></div>
+	return !loading && user === null ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Subscriptions</h2></div>
 		: initLoading ? <Loader />
 			: (
 				<div className='max-w-7xl mx-auto'>
@@ -112,7 +112,7 @@ function Subs() {
 										</div>
 									</div>
 									<div className='flex items-center gap-6'>
-										<button className='gap-2 px-4 py-2 rounded-full bg-[var(--bg-light)]'>Subscribed </button>
+										<span className='gap-2 px-4 py-2 rounded-full bg-[var(--bg-light)]'>Subscribed </span>
 										<div className='bg-[var(--bg)) rounded-full overflow-hidden'>
 											<Down_svg fill="var(--text)" id={`${channel.id}`} className='down   y-1 x-1 hover:bg-[var(--bg-light)] text-center  cursor-pointer hidden ' onClick={(e) => dropDownHandler(e.target, channel.chDetails.contentDetails.relatedPlaylists.uploads)} b={true} />
 											<Up fill="var(--text)" id={`${channel.chDetails.id}`} className=' up   y-2 x-2 hover:bg-[var(--bg-light)] text-center  cursor-pointer ' onClick={(e) => dropDownHandler(e.target, channel.chDetails.contentDetails.relatedPlaylists.uploads)} b={true} />
