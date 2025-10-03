@@ -11,14 +11,14 @@ function Playlist() {
 
 	const pId = p.slice(2)
 
-	const [videos, setPlaylists] = useState([])
+	const [videos, setVideos] = useState([])
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		const fetchVideos = async () => {
 			try {
 				const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p`, { pId }, { withCredentials: true })
-				setPlaylists(res.data || [])
+				setVideos(res.data || [])
 				console.log(res);
 
 			} catch (err) {

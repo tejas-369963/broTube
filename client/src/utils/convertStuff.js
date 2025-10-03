@@ -28,7 +28,13 @@ const convertDate = (d) => {
 
 	let con
 
-	if (Math.floor(res / 60 / 60 / 24 / 30) > 0) {
+	if (Math.floor(res / 60 / 60 / 24 / 30 / 12) > 0) {
+		con = Math.floor(res / 60 / 60 / 24 / 30 / 12)
+		let months = con > 1 ? "years" : "year"
+		res = `${con} ${months} ago`
+	}
+
+	else if (Math.floor(res / 60 / 60 / 24 / 30) > 0) {
 		con = Math.floor(res / 60 / 60 / 24 / 30)
 		let months = con > 1 ? "months" : "month"
 		res = `${con} ${months} ago`

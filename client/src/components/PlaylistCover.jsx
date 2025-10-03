@@ -60,7 +60,7 @@ function PlaylistCover({
 						<div className='smallT pt-1'>
 							<div className='flex items-center'>
 								<span className='pr-2 cursor-pointer'>{channelName}</span>
-								<Tick fill="var(--text-muted)" />
+								{/* <Tick fill="var(--text-muted)" /> */}
 							</div>
 
 							<div className="">

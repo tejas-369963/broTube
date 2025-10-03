@@ -133,6 +133,7 @@ function Subs() {
 														views={video?.statistics.viewCount}
 														publishedAt={video?.snippet?.publishedAt}
 														duration={video.contentDetails?.duration}
+														d={true}
 													/>
 												</div>
 											)) : ""}

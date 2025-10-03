@@ -8,11 +8,12 @@ import Plus from '../icons/Plus'
 
 function ListCover({
 	className = "",
-	id="",
+	id = "",
 	title = "",
 	thumbnail = null,
 	views = "",
 	publishedAt = "",
+	total = ""
 }) {
 
 	views = convertViews(views)
@@ -22,11 +23,17 @@ function ListCover({
 	return (
 
 		<div className={`${className}`} >
-			<div className='w-[calc(100%-2rem)] mx-auto h-2 -mb-1 rounded-t-full bg-gray-500'/>
-			<div className='w-[calc(100%-1rem)] mx-auto h-2 -mb-1 rounded-t-full bg-gray-400'/>
-			<Link to={`/playlists/p=${id}`} className={`cov aspect-video `}>
-				<img className='h-full w-full rounded-xl overflow-hidden object-cover ' src={thumbnail} alt="" />
-			</Link>
+			<div className='w-[calc(100%-2rem)] mx-auto h-2 rounded-t-full -mb-1 bg-gray-500'/>
+			<div className='w-[calc(100%-1rem)] mx-auto h-2 rounded-t-full -mb-1 bg-gray-400'/>
+			<div className={`relative cov max-md:rounded-xl rounded-md overflow-hidden aspect-video `}>
+				<img className='h-full w-full object-cover ' src={thumbnail} alt="" />
+				<span className='absolute bottom-1 right-1'>
+					<div className='flex items-center gap-1 px-1 rounded-sm bg-[var(--cd)]'>
+						<Playlist_svg stroke={"white"} w={"18"} h={"18"} />
+						<span className='text-sm'> {`${total} ${total > 1 ? "videos" : "video"} `}</span>
+					</div>
+				</span>
+			</div>
 
 			<div className="">
 				<h4 className='py-2 max-h-15 overflow-hidden  ln wText'>{title}</h4>

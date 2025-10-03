@@ -23,6 +23,7 @@ import VideoPlayer from '../../components/VideoPlayer'
 import { toggle } from '../../Store/sBarToggleSlice'
 import Suggestions from '../../components/Suggestions'
 import Comments from '../../components/Comments'
+import Loader from '../../components/Loader'
 
 function Video() {
 
@@ -79,7 +80,7 @@ function Video() {
 	window.addEventListener("resize", resizeHandler)
 
 	return initLoading ?
-		<div className='w-full h-full text-center flex justify-center items-center'><h1>Loading</h1></div>
+		<Loader />
 		: (
 			<div className='w-full h-full netHight flex gap-8'>
 				<div className='vd w-full overflow-y-auto '>
@@ -88,7 +89,7 @@ function Video() {
 							<VideoPlayer videoId={vId} />
 						</div>
 						<div className='pb-4'>
-							<h2 className='pt-6 '>{video.video[0].snippet.title}</h2>
+							<p className='pt-6 sm:text-[1.45rem] text-[1.125rem] font-[500] '>{video.video[0].snippet.title}</p>
 
 							<div className='flex flex-wrap gap-4'>
 								<div className='flex grow justify-between gap-4 pt-4'>
@@ -96,14 +97,14 @@ function Video() {
 										<Link className='flex' to={`/ch=${video.channel[0]?.id}`}><img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" /></Link>
 										<div className=''>
 											<div className='flex gap-2 items-center'>
-												<Link to={`/ch=${video.channel[0]?.id}`}><h3 className=''>{video.video[0]?.snippet?.channelTitle}</h3></Link>
-												<Tick fill="var(--text-muted)" />
+												<Link to={`/ch=${video.channel[0]?.id}`}><p className='sm:text-[1.125rem] sm:font-[500]'>{video.video[0]?.snippet?.channelTitle}</p></Link>
+												{/* <Tick fill="var(--text-muted)" /> */}
 											</div>
-											<p className='gText smallT'>{`${convertViews(video?.channel[0]?.statistics?.subscriberCount)} subscribers`}</p>
+											<p className='gText max-sm:text-sm'>{`${convertViews(video?.channel[0]?.statistics?.subscriberCount)} subscribers`}</p>
 										</div>
 									</div>
 								</div>
-								<div className='flex gap-3 pb-3'>
+								<div className='flex gap-2 pb-3'>
 									<div className='flex items-center gap-1'>
 										<ViIcon fill='var(--highlight)' />
 										<span className=' text-[var(--text-muted)]'>{`${convertViews(video?.video[0]?.statistics.viewCount)}`}</span>

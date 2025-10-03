@@ -22,7 +22,7 @@ function HomeVideoCard({
 	views = "",
 	publishedAt = "",
 	duration = "",
-	d = true,
+	d = false,
 	v = false,
 	ply = false
 }) {
@@ -36,7 +36,7 @@ function HomeVideoCard({
 	return (
 		<>
 			<Link to={`/watch/v=${id}`} className=''>
-				<div className={` relative cov mb-3 ${ply ? "sm:max-w-sm" : ""} ${!v ? "rounded-xl mb-2" : "w-42 rounded-md"} overflow-hidden aspect-video `}>
+				<div className={` relative cov mb-3 ${ply ? "sm:max-w-sm" : ""} ${!v ? `sm:rounded-xl mb-2 ${d ? "" : "max-sm:-mx-2"}` : "w-42 rounded-md"} overflow-hidden aspect-video `}>
 					<img className='h-full w-full object-cover ' src={thumbnail} alt="" />
 					<div className='absolute right-1 bottom-1 px-1 bg-[var(--bg-darkDim)] rounded-sm ssmallT'>{duration}</div>
 				</div>
@@ -63,12 +63,12 @@ function HomeVideoCard({
 									{ply
 										? <div className={`flex items-center gap-1 sm:py-4`}>
 											<img className='h-7 rounded-full cursor-pointer max-sm:hidden' src={channelProfile} alt="" />
-											<span className={`pr-2 max-w-[calc(93%)] overflow-hidden hover:text-[var(--text)] ${v ? "text-[.75rem] h-5" : "h-6"}`}>{channelName}</span>
+											<span className={`pr-2 sm:max-w-[calc(93%)] overflow-hidden hover:text-[var(--text)]  ${v ? "text-[.75rem] h-5" : "h-6"}`}>{channelName}</span>
 										</div>
 										: <span className={`pr-2 max-w-[calc(93%)] overflow-hidden hover:text-[var(--text)] ${v ? "text-[.75rem] h-5" : "h-6"}`}>{channelName}</span>
 									}
 								</Link>
-								<Tick fill="var(--text-muted)" />
+								{/* <Tick fill="var(--text-muted)" /> */}
 							</div>
 
 							<div className={`${v ? "text-[.75rem]" : ""}`}>

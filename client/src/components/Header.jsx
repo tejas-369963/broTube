@@ -13,7 +13,7 @@ import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const clickHandler = () => {
-	window.location.href = "http://localhost:5000/api/v1/user/google"
+	window.location.href = "https://brotube-server.onrender.com/api/v1/user/google"
 }
 
 const getDeviceType = () => {
@@ -191,7 +191,7 @@ function Header() {
 				<div className="flex pr-2">
 					<button className="pr-6 pl-[1.54rem] cursor-pointer" onClick={sidebarToggle}><HamIcon fill="var(--svgHi)" /></button>
 					<Link to={"/"} className='min-w-28 flex items-center'>
-						<LogoIcon className='' fill="var(--primary)" />
+						<LogoIcon className='mb-0.5 pb-0.25' fill="var(--primary)" />
 						<h1 className='logoText' >BroTube</h1>
 					</Link>
 				</div>

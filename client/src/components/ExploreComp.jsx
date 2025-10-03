@@ -62,6 +62,7 @@ function ExportComp({Icon, title, trending, navItems, className}) {
 							views={video?.statistics.viewCount}
 							publishedAt={video?.snippet?.publishedAt}
 							duration={video.contentDetails?.duration}
+							d={true}
 							e={true}
 						/>
 					</div>

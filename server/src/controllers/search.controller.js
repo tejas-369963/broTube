@@ -34,9 +34,6 @@ const getSearchResults = asyncHandler(async (req, res) => {
 	try {
 
 		const { q } = req.query
-        const pageToken = req.query.pageToken || ""
-
-		console.log("tags", pageToken);
 
 		const suggestionsRes = await youtube.search.list({
 			part: "snippet",

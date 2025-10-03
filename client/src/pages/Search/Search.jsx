@@ -48,7 +48,7 @@ function Search() {
 					<>
 						<div className='sm:flex gap-4 pb-6' key={video.id}>
 							<HomeVideoCard
-								id={video.contentDetails.videoId}
+								id={video.id}
 								title={video?.snippet?.title}
 								thumbnail={video?.snippet?.thumbnails?.high?.url}
 								channelId={video?.chDetails.id}

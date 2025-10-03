@@ -88,7 +88,9 @@ function Channel() {
 
 	useEffect(() => {
 		setNextPageToken("")
-		if(active === "" && channel)
+		setPlaylists([])
+		setVideos([])
+		if (active === "" && channel)
 			setActive("Videos")
 		switch (active) {
 			case "Videos":
@@ -103,20 +105,17 @@ function Channel() {
 	}, [active, channel])
 
 	const fetchVideos = async () => {
-		console.log(Date.now(), loading);
-		// if(!channel) return
-		// if(loading) return
-			setLoading(true)
-		if(vLoading === "init") setVLoading(true)
+		setLoading(true)
+		if (vLoading === "init") setVLoading(true)
 
 		try {
 			const res = await axios.post(`https://brotube-server.onrender.com/api/v1/channel${videoTag}?pageToken=${nextPageToken || ""}`, { id: id.id }, { withCredentials: true })
 			console.log(res.data)
 			if (active === "Videos") {
-				
+
 				setVideos(prev => [...prev, ...res.data.data.resData])
 				setNextPageToken(res.data.data.nextPageToken)
-				
+
 			}
 			else if (active === "Playlists") {
 				setPlaylists(prev => [...prev, ...res.data.data.resData])
@@ -132,8 +131,8 @@ function Channel() {
 	}
 
 	useEffect(() => {
-		
-		if(channel) fetchVideos()
+
+		if (channel) fetchVideos()
 
 	}, [videoTag, channel])
 
@@ -153,9 +152,9 @@ function Channel() {
 	}, [nextPageToken, loading])
 
 	const aboutHandler = (e) => {
-		if(e.target.classList.contains("blank") || e.target.classList.contains("close"))
+		if (e.target.classList.contains("blank") || e.target.classList.contains("close"))
 			setIsAboutActive(false)
-		else if(e.target.classList.contains("more"))
+		else if (e.target.classList.contains("more"))
 			setIsAboutActive(true)
 
 	}
@@ -164,7 +163,7 @@ function Channel() {
 		setIsAboutActive(false)
 	}
 
-	return initLoading ? "": (
+	return initLoading ? "" : (
 		<>
 			<div className={`blank absolute  top-0 left-0 bg-[var(--bg-dim)] z-30 w-full h-full flex items-center justify-center ${isAboutActive ? "" : "hidden"}`} onClick={(e) => aboutHandler(e)}>
 				<div className="flex flex-col gap-2 max-w-md mx-3 px-6 pt-6 pb-9 mt-[-3rem] bg-[var(--cd)] backdrop-blur-xl rounded-2xl">
@@ -206,7 +205,7 @@ function Channel() {
 			<div className=" relative max-w-7xl h-full mx-auto ">
 				<div>
 					<div className="relative">
-						<div className="w-full aspect-[6/1] rounded-2xl overflow-hidden">
+						<div className="w-full aspect-[6/1] sm:rounded-2xl overflow-hidden">
 							<img className="w-full h-full object-cover" src={channel?.brandingSettings.image.bannerExternalUrl || ""} alt="" />
 						</div>
 						<div className="flex justify-between gap-4">
@@ -215,13 +214,10 @@ function Channel() {
 									<img className=" rounded-full" src={channel.snippet.thumbnails.medium.url} alt="" />
 								</div>
 								<div className="pt-3 w-full">
-									<div className="flex gap-2 items-center pb-2">
-										<h1>{channel.snippet.title}</h1>
-										<Tick fill="var(--text-muted)" />
-									</div>
-									<div className=" relative w-full h-6 overflow-hidden pr-13">
+									<h1 className="pb-2">{channel.snippet.title}</h1>
+									<div className=" relative w-full h-6 text-sm overflow-hidden pr-13">
 										<span className=" text-[var(--text-muted)]">
-											<span>{channel.snippet.customUrl} • </span>
+											<span className="text-[var(--text)]">{channel.snippet.customUrl} • </span>
 											<span>{convertViews(channel.statistics.subscriberCount)} subscribers • </span>
 											<span>{convertViews(channel.statistics.videoCount)} videos • </span>
 											<span>{description(channel.snippet.description)}</span>
@@ -247,7 +243,7 @@ function Channel() {
 					</ul>
 					<div className="w-full h-px  bg-[var(--border-muted)]" />
 				</div>
-				{vLoading ? <Loader h={1}/>
+				{vLoading ? <Loader h={1} />
 					: active === "Videos" ?
 						<div className="w-full gap-x-4 gap-y-8 p-6 pb-3 vc">
 							{videos?.map((video) => (
@@ -272,22 +268,22 @@ function Channel() {
 				}
 
 				{vLoading ? ""
-					:active === "Playlists" ?
-					<div className="py-6 pvc w-full gap-x-4 gap-y-8">
-						{playlists.map((playlist) => (
-							<div key={playlist.id}>
-								<ListCover
-									className={""}
-									id={playlist?.id}
-									title={playlist.snippet.title}
-									thumbnail={playlist?.snippet?.thumbnails.medium.url}
-									total={playlist.contentDetails.itemCount}
-								/>
-							</div>
-						))}
-						{playlists.length ? <div id='chPlyScroll' className='h-px'></div> : ""}
-					</div>
-					: ""
+					: active === "Playlists" ?
+						<div className="py-6 pvc w-full gap-x-4 gap-y-8">
+							{playlists.map((playlist) => (
+								<div key={playlist.id}>
+									<ListCover
+										className={""}
+										id={playlist?.id}
+										title={playlist.snippet.title}
+										thumbnail={playlist?.snippet?.thumbnails.medium.url}
+										total={playlist.contentDetails.itemCount}
+									/>
+								</div>
+							))}
+							{playlists.length ? <div id='chPlyScroll' className='h-px'></div> : ""}
+						</div>
+						: ""
 				}
 			</div>
 		</>
