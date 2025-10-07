@@ -34,7 +34,7 @@ function Suggestions({ tags, v= false }) {
 
 	return initLoading ? <Loader /> : (
 		<>
-			<div className={`${v ? "" : "tvc w-full gap-x-4 gap-y-8"}`}>
+			<div className={`${v ? "" : "tvc w-full"}`}>
 	
 				{suggestions?.map((vid) => (
 						<div key={nanoid()} className={`${v ? "flex gap-2" : ""}`} >
@@ -48,11 +48,12 @@ function Suggestions({ tags, v= false }) {
 								publishedAt={vid?.snippet?.publishedAt}
 								duration={vid.contentDetails?.duration}
 								v={v}
+								d={true}
 							/>
 						</div>
 					))}
 			</div>
-			{v ? "" : <div className='w-full my-4 border border-[var(--border-muted)]'/>}
+			{v ? "" : <div className='w-full h-px my-4 bg-[var(--border-muted)]'/>}
 		</>
 	)
 }
