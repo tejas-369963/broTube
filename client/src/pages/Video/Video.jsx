@@ -45,7 +45,7 @@ function Video() {
 			setLoading(true)
 			if (initLoading === "init") setInitLoading(true)
 			try {
-				const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home/${vId}`)
+				const res = await axios.get(`http://localhost:5000/api/v1/home/${vId}`)
 				setVideo(res.data)
 				console.log(res.data);
 
@@ -124,7 +124,7 @@ function Video() {
 						}
 					</section>
 					<section className={`sug pt-8 ${isSizeSmall ? "" : "hidden"}`}>
-						<div className='pb-4'><h2>Related Videos</h2></div>
+						<div className='pb-4'><h2>Trending Videos</h2></div>
 						<Suggestions tags={video.video[0]?.snippet.tags?.[0]} />
 					</section>
 					<section className=''>
@@ -132,7 +132,7 @@ function Video() {
 					</section>
 				</div>
 				<section className={`sidSug w-xl netHight overflow-y-auto sticky top-0 ${isSizeSmall ? "hidden" : ""}`}>
-					<div className='sticky top-0 bg-dark pb-4 z-10'><h2>Related Videos</h2></div>
+					<div className='sticky top-0 bg-dark pb-4 z-10'><h2>Trending Videos</h2></div>
 					<Suggestions tags={video.video[0]?.snippet.tags?.[0]} v={true} />
 				</section>
 			</div>
