@@ -23,7 +23,7 @@ function Subs() {
 		setLoading(true)
 		if (initLoading === "init") setInitLoading(true)
 		try {
-			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/user/subs?pageToken=${nextPageToken || ""}`, { withCredentials: true })
+			const res = await axios.get(`http://localhost:5000/api/v1/user/subs?pageToken=${nextPageToken || ""}`, { withCredentials: true })
 			setSubs(prev => [...prev, ...res.data.subs])
 			// setSubs(res.data.subs)
 			setSubCount(res.data.totalSubs)
@@ -59,7 +59,7 @@ function Subs() {
 	const fetchVideos = async (id) => {
 		setLoading(true)
 		try {
-			const res = await axios.post(`https://brotube-server.onrender.com/api/v1/channel/videos`, { id, totalVideos: 5 }, { withCredentials: true })
+			const res = await axios.post(`http://localhost:5000/api/v1/channel/videos`, { id, totalVideos: 5 }, { withCredentials: true })
 			setVideos(res.data.data.resData)
 
 			console.log(res.data);

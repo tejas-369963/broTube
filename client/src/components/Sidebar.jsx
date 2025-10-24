@@ -55,7 +55,7 @@ function Sidebar() {
 		{
 			name: "Playlists",
 			Icon: Playlist_svg,
-			url: "/playlists",
+			url: "/u/playlists",
 			dropDown: true
 		},
 		// {
