@@ -92,7 +92,7 @@ function Explore() {
 			  <h1>{"Trending"}</h1>
 			</div>
 		  </div>
-		  <ul className='nav flex gap-16 gText smallT px-6 pt-9 bg-dark z-10 overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
+		  <ul className='nav flex gap-16 gText smallT px-6 pt-9 bg-dark z-[1] overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
 			{navItems?.map((item) => (
 			  <li key={item?.tag}>
 				<p className={`pb-3 cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>

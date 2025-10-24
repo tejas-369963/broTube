@@ -66,7 +66,7 @@ const getAllPlaylistVideos = async (req, res) => {
 			const playlist = await youtube.playlistItems.list({
 				part: "snippet, contentDetails",
 				playlistId: pId,
-				maxResults: 12,
+				maxResults: 24,
 				auth: oauth2Client,
 			})
 
