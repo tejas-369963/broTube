@@ -37,7 +37,7 @@ function Suggestions({ tags, v= false }) {
 			<div className={`${v ? "" : "tvc w-full"}`}>
 	
 				{suggestions?.map((vid) => (
-						<div key={nanoid()} className={`${v ? "flex gap-2" : ""}`} >
+						<div key={vid.id} className={`${v ? "flex gap-2" : ""}`} >
 							<HomeVideoCard
 								id={vid.id}
 								title={vid?.snippet?.title}

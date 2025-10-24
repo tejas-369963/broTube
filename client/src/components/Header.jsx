@@ -7,7 +7,8 @@ import {
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { toggle } from '../Store/sBarToggleSlice'
+import { toggle } from '../Store/sBarToggleSlice.js'
+import {detect} from '../Store/deviceSlice.js'
 import ProfileCard from './ProfileCard'
 import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -85,11 +86,11 @@ function Header() {
 
 	const isToggled = useSelector(state => state.sidebar.toggled)
 
-	const [searchToggle, setSearchToggle] = useState(false)
-
 	const sidebarToggle = () => {
 		dispatch(toggle(!isToggled))
 	}
+
+	dispatch(getDeviceType)
 
 	const [loading, setLoading] = useState(true)
 
@@ -98,7 +99,7 @@ function Header() {
 
 			try {
 				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
-				// console.log(res.data);
+				console.log(res.data);
 
 				const user = res.data.data?.userInfo
 
@@ -164,14 +165,6 @@ function Header() {
 
 		navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
 
-		setSearchToggle(false)
-
-	}
-
-	const searchBlock = (e) => {
-		if(e.target.classList.contains("searchF"))
-			setSearchToggle(false)
-		
 	}
 
 	const handleKeyPress = (e) => {
@@ -180,7 +173,7 @@ function Header() {
 	}
 
 	const searchHandler = () => {
-		setSearchToggle(!searchToggle)
+		navigate(`/search`)
 	}
 
 	const device = getDeviceType()
@@ -195,7 +188,7 @@ function Header() {
 						<h1 className='logoText' >BroTube</h1>
 					</Link>
 				</div>
-				<div  className={`w- searchF ${searchToggle? "w-dvw h-dvh absolute left-0 top-0 pt-3 px-3 bg-[var(--bg-dim)] z-50 ": "w-2/5 max-w-2xl max-sm:hidden"}`}onClick={e => searchBlock(e)}>
+				<div  className={`w- searchF w-2/5 max-w-2xl max-sm:hidden`} >
 					<form onSubmit={handleSearch} className={`flex items-center py-2 borderG rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
 						<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
 						<input

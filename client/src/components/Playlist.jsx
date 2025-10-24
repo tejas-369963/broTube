@@ -12,27 +12,46 @@ function Playlist() {
 	const pId = p.slice(2)
 
 	const [videos, setVideos] = useState([])
-	const [loading, setLoading] = useState(true)
+	const [initLoading, setInitLoading] = useState("init")
+	const [loading, setLoading] = useState(false)
+	const [nextPageToken, setNextPageToken] = useState("")
+
+	const fetchVideos = (async () => {
+		if (loading) return
+		setLoading(true)
+		if (initLoading === "init") setInitLoading(true)
+		try {
+			const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p?pageToken=${nextPageToken || ""}`, { pId }, { withCredentials: true })
+			setVideos(prev => [...prev, ...res.data.data.resData])
+			setNextPageToken(res.data.data.nextPageToken)
+			console.log(res.data.data);
+
+		} catch (err) {
+			console.error('Failed to fetch video:', err.message);
+		} finally {
+			setLoading(false)
+			setInitLoading(false)
+		}
+	})
 
 	useEffect(() => {
-		const fetchVideos = async () => {
-			try {
-				const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p`, { pId }, { withCredentials: true })
-				setVideos(res.data || [])
-				console.log(res);
-
-			} catch (err) {
-				console.error('Failed to fetch video:', err.message);
-			} finally {
-				setLoading(false)
-			}
-		}
-
 		fetchVideos()
-
 	}, [])
 
-	return loading ? <Loader />
+	useEffect(() => {
+		const observer = new IntersectionObserver(([entry]) => {
+			if (entry.isIntersecting && nextPageToken && !loading) {
+				fetchVideos()
+			}
+		})
+		const sentinel = document.getElementById("playlistScroll")
+
+		if (sentinel) observer.observe(sentinel)
+
+		return () => observer.disconnect()
+	}, [nextPageToken, loading])
+
+	return initLoading ? <Loader />
 		: (
 			<>
 				{/* <h1></h1> */}
@@ -55,6 +74,7 @@ function Playlist() {
 								/>
 							</div>
 						))}
+						{videos.length > 11 ? <div id='playlistScroll' className='h-px'></div> : ""}
 					</div>
 					:
 					<div className='w-full h-full flex justify-center items-center'>

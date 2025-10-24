@@ -90,7 +90,7 @@ function Home() {
 						/>
 					</div>
 				))}
-				{videos.length ? <div id='scroll-sentinel' className='h-px'></div> :  ""}
+				{videos.length > 11 ? <div id='scroll-sentinel' className='h-px'></div> :  ""}
 			</div>
 		)
 }

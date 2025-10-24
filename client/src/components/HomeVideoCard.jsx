@@ -61,7 +61,7 @@ function HomeVideoCard({
 							<div className='flex items-center'>
 								<Link to={`/ch=${channelId}`}>
 									{ply
-										? <div className={`flex items-center gap-1 sm:py-4`}>
+										? <div className={`flex items-center gap-2 sm:py-4`}>
 											<img className='h-7 rounded-full cursor-pointer max-sm:hidden' src={channelProfile} alt="" />
 											<span className={`pr-2 sm:max-w-[calc(93%)] overflow-hidden hover:text-[var(--text)]  ${v ? "text-[.75rem] h-5" : "h-6"}`}>{channelName}</span>
 										</div>

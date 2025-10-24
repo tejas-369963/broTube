@@ -2,6 +2,7 @@ import { google } from 'googleapis'
 import { oauth2Client } from '../utils/gApi.js'
 import { ApiError } from '../utils/ApiError.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
+import { ApiResponse } from '../utils/ApiResponse.js'
 
 const youtube = google.youtube({
 	version: "v3",
@@ -29,6 +30,8 @@ const getVideoById = async (id) => {
 const getAllPlaylists = asyncHandler(async (req, res) => {
 	if (req.user) {
 
+		const pageToken = req.query.pageToken || ""
+
 		try {
 			// oauth2Client.setCredentials({ refresh_token: req.cookies?.refresh_token })
 
@@ -37,13 +40,14 @@ const getAllPlaylists = asyncHandler(async (req, res) => {
 				mine: true,
 				maxResults: 12,
 				auth: oauth2Client,
+				pageToken
 			})
 
 			const resData = playlistsInfo.data.items
 
 			return res
 				.status(200)
-				.json(resData)
+				.json(new ApiResponse(200, { resData, nextPageToken: playlistsInfo.data.nextPageToken }, "Got channel videos"))
 
 		} catch (error) {
 			console.log(error.message);
@@ -59,6 +63,8 @@ const getAllPlaylistVideos = async (req, res) => {
 
 	if (req.user) {
 
+		const pageToken = req.query.pageToken || ""
+
 		try {
 
 			const {pId} = req.body
@@ -66,8 +72,9 @@ const getAllPlaylistVideos = async (req, res) => {
 			const playlist = await youtube.playlistItems.list({
 				part: "snippet, contentDetails",
 				playlistId: pId,
-				maxResults: 24,
+				maxResults: 12,
 				auth: oauth2Client,
+				pageToken
 			})
 
 			const data = playlist.data?.items
@@ -97,7 +104,7 @@ const getAllPlaylistVideos = async (req, res) => {
 
 			return res
 				.status(200)
-				.json(resData)
+				.json(new ApiResponse(200, { resData, nextPageToken: playlist.data.nextPageToken }, "Got channel videos"))
 
 		} catch (error) {
 			console.log(error.message);
@@ -116,11 +123,14 @@ const getLikedVideos = async (req, res) => {
 		try {
 			// oauth2Client.setCredentials({ refresh_token: req.cookies?.refresh_token })
 
+			const pageToken = req.query.pageToken || ""
+
 			const videos = await youtube.playlistItems.list({
 				part: "snippet, contentDetails",
 				playlistId: 'LL',
 				maxResults: 12,
 				auth: oauth2Client,
+				pageToken
 			})
 
 			const data = videos.data?.items
@@ -150,7 +160,7 @@ const getLikedVideos = async (req, res) => {
 			
 			return res
 				.status(200)
-				.json(resData)
+				.json(new ApiResponse(200, { resData, nextPageToken: videos.data.nextPageToken }, "Got all liked videos"))
 
 		} catch (error) {
 			console.log(error.message);

@@ -40,7 +40,8 @@ function Subs() {
 	});
 
 	useEffect(() => {
-		fetchSubs()
+		if (user)
+			fetchSubs()
 	}, [])
 
 	useEffect(() => {
@@ -54,6 +55,7 @@ function Subs() {
 		if (sentinel) observer.observe(sentinel)
 
 		return () => observer.disconnect()
+
 	}, [nextPageToken, loading])
 
 	const fetchVideos = async (id) => {
@@ -95,7 +97,15 @@ function Subs() {
 		}
 	}
 
-	return !loading && user === null ? <div className='w-full h-full text-center flex flex-col justify-center items-center'><h1>Login to see </h1><h2>Subscriptions</h2></div>
+	return !loading && user === null
+		? <div className="w-full h-full flex flex-col justify-center items-center text-center -mt-12 space-y-2">
+			<h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+				Login to see
+			</h1>
+			<h2 className="text-xl font-medium text-[var(--primary)]">
+				Your Subscriptions
+			</h2>
+		</div>
 		: initLoading ? <Loader />
 			: (
 				<div className='max-w-7xl mx-auto'>
@@ -144,7 +154,7 @@ function Subs() {
 								<div className='h-px bg-[var(--border-muted)]' />
 							</div>
 						))}
-						{subs.length ? <div id='subsScroll' className='h-px '></div> : ""}
+						{subs.length > 8 ? <div id='subsScroll' className='h-px '></div> : ""}
 					</div>
 				</div>
 			)
