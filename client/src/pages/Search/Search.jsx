@@ -67,7 +67,7 @@ function Search() {
 		? <Loader />
 		: (
 			<>
-				<div className={`sm:hidden w-dvw absolute left-0 top-0 pt-30 px-3 bg-[var(--bg-dim)]  z-[60] `}>
+				<div className={`sm:hidden w-dvw absolute left-0 top-0 pt-9 px-3 bg-[var(--bg-dim)]  z-[60] `}>
 					<form onSubmit={handleSearch} className={`flex items-center py-2 borderG rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
 						<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
 						<input
