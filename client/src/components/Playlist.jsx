@@ -21,7 +21,7 @@ function Playlist() {
 		setLoading(true)
 		if (initLoading === "init") setInitLoading(true)
 		try {
-			const res = await axios.post(`https://brotube-server.onrender.com/api/v1/playlist/p?pageToken=${nextPageToken || ""}`, { pId }, { withCredentials: true })
+			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/playlist/p?pageToken=${nextPageToken || ""}`, { pId }, { withCredentials: true })
 			setVideos(prev => [...prev, ...res.data.data.resData])
 			setNextPageToken(res.data.data.nextPageToken)
 			console.log(res.data.data);

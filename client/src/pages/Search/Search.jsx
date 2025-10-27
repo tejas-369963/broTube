@@ -21,7 +21,7 @@ function Search() {
 		if (initLoading === "init") setInitLoading(true)
 		try {
 
-			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/search?q=${encodeURIComponent(qu)}`, { withCredentials: true })
+			const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/search?q=${encodeURIComponent(qu)}`, { withCredentials: true })
 			console.log("sug --->", res.data.data.suggestions);
 			setSuggestions(res.data.data.suggestions)
 

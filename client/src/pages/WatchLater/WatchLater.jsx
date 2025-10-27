@@ -20,7 +20,7 @@ function WatchLater() {
 	useEffect(() => {
 		const fetchVideos = async () => {
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/playlist/WL", { withCredentials: true })
+				const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/playlist/WL`, { withCredentials: true })
 				setVideos(res.data)
 			} catch (err) {
 				console.error('Failed to fetch video:', err.message);

@@ -58,7 +58,7 @@ function Channel() {
 		const vid = async () => {
 
 			try {
-				const res = await axios.get(`https://brotube-server.onrender.com/api/v1/channel/${channelId[1]}`, { withCredentials: true })
+				const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/channel/${channelId[1]}`, { withCredentials: true })
 
 				setChannel(res.data.data.channelInfo)
 
@@ -109,7 +109,7 @@ function Channel() {
 		if (vLoading === "init") setVLoading(true)
 
 		try {
-			const res = await axios.post(`https://brotube-server.onrender.com/api/v1/channel${videoTag}?pageToken=${nextPageToken || ""}`, { id: id.id }, { withCredentials: true })
+			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/channel${videoTag}?pageToken=${nextPageToken || ""}`, { id: id.id }, { withCredentials: true })
 			console.log(res.data)
 			if (active === "Videos") {
 

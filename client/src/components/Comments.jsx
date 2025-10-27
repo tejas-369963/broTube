@@ -16,7 +16,7 @@ function Comments({vId}) {
 		setLoading(true)
 		if(initLoading === "init") setInitLoading(true)
 			try {
-		const res = await axios.post(`https://brotube-server.onrender.com/api/v1/home/com?pageToken=${nextPageToken || ""}`, { vId })
+		const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/home/com?pageToken=${nextPageToken || ""}`, { vId })
 		setComments(prev => [...prev, ...res.data.data.comments])
 		console.log("comm --->", res.data);
 		setNextPageToken(res.data.data.nextPageToken)

@@ -7,18 +7,22 @@
 	--ff: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
 	--lff: "Oswald";
-	--bg-dark: oklch(0.07 0.036 299);
-	--bg-darkDim: oklch(6.883% 0.03618 302.892 / 0.69);
+	--bg-dark: oklch(6.883% 0.03618 302.892);
+	--bg-darkDim: oklch(6.883% 0.03618 302.892 / 0.42);
+	--bg-darkerDim: oklch(6.883% 0.03618 302.892 / 0.693);
 	--bg-dim: hsla(0, 0%, 15%, 0.194);
 	--bg: oklch(0.15 0.02 299);
 	--bg-light: oklch(0.2 0.03 293);
-	--cd: oklch(19.82% 0.02993 292.626 / 0.863);
+	--cd: oklch(19.82% 0.02993 292.626 / 0.803);
+	--pro: oklch(19.82% 0.02993 292.626 / 0.828);
 	--text: oklch(0.945 0.06 293);
 	--svgHi: oklch(0.93 0.06 293);
+	--text-muted: oklch(0.75 0.06 293);
 	--text-muted: oklch(0.75 0.06 293);
 	--highlight: oklch(0.5 0.04 299);
 	--border: oklch(0.4 0.04 299);
 	--border-muted: oklch(0.3 0.04 299);
+	--border-mutedDim: oklch(29.864% 0.0402 298.538 / 0.540);
 	--primary: oklch(62.989% 0.18009 293.169);
 	--secondary: oklch(0.76 0.1 119);
 	--danger: oklch(0.7 0.05 30);
@@ -48,7 +52,6 @@
 
 	--minWI: 1rem;
 
-	background-color: var(--bg-dark);
 	color: var(--text);
 	font-family: var(--ff);
 
@@ -107,6 +110,7 @@
 }
 
 body {
+	background-color: var(--bg-dark);
 	overflow: hidden;
 }
 
@@ -210,10 +214,6 @@ button {
 
 .borderG {
 	border: 1px solid var(--border-muted);
-}
-
-.netHight {
-	height: calc(100dvh - 4.75rem);
 }
 
 .wText {

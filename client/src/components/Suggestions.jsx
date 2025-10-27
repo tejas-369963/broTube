@@ -15,7 +15,7 @@ function Suggestions({ tags, v= false }) {
 		setLoading(true)
 		if(initLoading === "init") setInitLoading(true)
 			try {
-		const res = await axios.post(`https://brotube-server.onrender.com/api/v1/home/sug`, { tags })
+		const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/home/sug`, { tags })
 		setSuggestions(res.data.data.suggestions)
 		console.log("sug --->", res.data);
 
@@ -43,6 +43,7 @@ function Suggestions({ tags, v= false }) {
 								title={vid?.snippet?.title}
 								thumbnail={vid?.snippet?.thumbnails.high.url} 
 								channelName={vid?.snippet?.channelTitle}
+								channelProfile={vid?.chDetails?.snippet.thumbnails.default.url}
 								channelId={vid.snippet.channelId}
 								views={vid?.statistics.viewCount}
 								publishedAt={vid?.snippet?.publishedAt}

@@ -144,15 +144,14 @@ function Sidebar() {
 
 	return (
 		<>
-			<aside className={`h-full z-30 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`} onClick={(e) => sideHandler(e)}>
-				<nav className={`h-full mx-[-.2rem] ${isToggled ? "min-w-68 max-w-68" : "max-w-20.5 min-w-20.5"} sidT  smallT w500 bg-dark`}>
-					<ul className={`px-4 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
+			<aside className={`h-full z-30 pt-18 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`} onClick={(e) => sideHandler(e)}>
+				<nav className={`h-full mx-[-.2rem] ${isToggled ? "min-w-68 max-w-68 bg-[var(--bg-darkerDim)] backdrop-blur-3xl" : "max-w-20.5 min-w-20.5 bg-[var(--bg-dar)]"} sidT  smallT w500`}>
+					<ul className={`px-4 pt-4 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
 						{navItems.map(({ name, Icon, url, dropDown }) => (
 							<li key={Math.random()} className='pb-0.5' >
 								{name != "divider" ? <NavLink
 									to={url}
-									className={({ isActive }) => `flex justify-between px-3 py-3 rounded-lg`}
-									style={({ isActive }) => ({backgroundColor: `${isActive ? "var(--bg-light)" : ""}`})}
+									className={({ isActive }) => `flex justify-between px-3 py-3 rounded-lg ${isActive ? `${isToggled ? "bg-[var(--border-mutedDim)]" : "bg-[var(--bg-light)]"}` : ""}`}
 								>
 									{({ isActive }) => (
 										<>

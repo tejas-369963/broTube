@@ -14,7 +14,7 @@ function Home() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
+				const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/loggedIn`, { withCredentials: true })
 				console.log(res.data);
 
 				const user = res.data.data?.userInfo
@@ -42,7 +42,7 @@ function Home() {
 		setLoading(true)
 		if(initLoading === "init") setInitLoading(true)
 		try {
-			const res = await axios.get(`https://brotube-server.onrender.com/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
+			const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/home?pageToken=${nextPageToken || ""}`, {withCredentials: true})
 			setVideos(prev => [...prev, ...res.data.resData])
 			dispatch(updateVToken(res.data.nextPageToken || null ))	
 			console.log(res.data.resData);

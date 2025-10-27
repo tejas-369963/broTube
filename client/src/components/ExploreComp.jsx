@@ -41,7 +41,7 @@ function ExportComp({Icon, title, trending, navItems, className}) {
 					<h1>{title}</h1>
 				</div>
 			</div>
-			<ul className='nav flex gap-16 gText smallT px-6 pt-9 bg-dark -z-10' style={{position: "sticky", top: "-1rem"}}>
+			<ul className='nav flex gap-16 gText smallT px-6 pt-9 -z-10' style={{position: "sticky", top: "-1rem"}}>
 				{navItems?.map((item) => (
 					<li key={item?.tag}>
 						<p className={`pb-3 cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>

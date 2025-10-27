@@ -19,7 +19,7 @@ function Explore() {
 	setLoading(true)
 	const fetchVideos = async () => {
 	  try {
-		const res = await axios.get(`https://brotube-server.onrender.com/api/v1/explore${videoTag}`)
+		const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/explore${videoTag}`)
 		setVideos(res.data.data)
 		console.log(res.data);
 

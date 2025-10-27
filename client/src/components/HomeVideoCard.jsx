@@ -38,17 +38,17 @@ function HomeVideoCard({
 			<Link to={`/watch/v=${id}`} className=''>
 				<div className={` relative cov mb-3 ${ply ? "sm:max-w-sm" : ""} ${!v ? `sm:rounded-xl mb-2 ${d ? "" : "max-sm:-mx-2"}` : "w-42 rounded-md"} overflow-hidden aspect-video `}>
 					<img className='h-full w-full object-cover ' src={thumbnail} alt="" />
-					<div className='absolute right-1 bottom-1 px-1 bg-[var(--bg-darkDim)] rounded-sm ssmallT'>{duration}</div>
+					<div className='absolute right-1 bottom-1 px-1 bg-[var(--cd)] rounded-sm ssmallT'>{duration}</div>
 				</div>
 			</Link>
 
 			<div className={`w-full flex  justify-between gText`}>
 				<div className='flex gap-2 grow'>
 
-					{channelProfile ?
+					{channelProfile && !v ?
 						<Link
 							to={`/ch=${channelId}`}
-							className={`min-w-12 mt-1 cursor-pointer ${ply ? "sm:hidden" : ""}`}>
+							className={`min-w-10.5 h-10.5 mt-1 rounded-full cursor-pointer bg-[var(--highlight)] ${ply ? "sm:hidden" : ""}`}>
 							<img className='h-10.5 rounded-full' src={channelProfile} alt="" />
 						</Link>
 						: ""

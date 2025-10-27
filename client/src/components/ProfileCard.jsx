@@ -14,7 +14,7 @@ function ProfileCard() {
 		console.log("h");
 
 		try {
-			const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/logout", { withCredentials: "include" })
+			const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/logout`, { withCredentials: "include" })
 
 			console.log("-->", res);
 
@@ -27,13 +27,13 @@ function ProfileCard() {
 
 	const switchHandler = async () => {
 
-		const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/logout", { withCredentials: "include" })
+		const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/logout`, { withCredentials: "include" })
 
 		if (!res) throw new ApiError(500, "Couldn't logout user")
 
 		dispatch(logout())
 
-		window.location.href = "https://brotube-server.onrender.com/api/v1/user/google"
+		window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/google`
 
 	}
 
@@ -41,41 +41,42 @@ function ProfileCard() {
 
 		const card = document.querySelector(".profC")
 
-		if (card.classList.contains("hidden"))
+		if (card.classList.contains("hidden")){
 			card.classList.remove("hidden")
-		else
+		}
+		else{
 			card.classList.add("hidden")
-
+		}
 	}
 
 	const user = useSelector(state => state.auth.userData)
 
 	return (
 		<>
-			<div className='flex flex-col gap-4 p-4  ' style={{ backgroundColor: "var(--cd)" }} >
-				<div className='flex gap-3'>
-					<div className='w-10.5 h-10.5 rounded-full overflow-hidden'>
+			<div className='flex flex-col w-2xs gap-2 py-2 backdrop-blur-3xl bg-[var(--pro)] '>
+				<div className='flex gap-3 px-4 pt-6'>
+					<div className='w-12 h-12 bg-[var(--highlight)] rounded-full overflow-hidden'>
 						<img src={user.picture} alt="" />
 					</div>
 					<div>
-						<h2 className='w500'>{user.name}</h2>
-						<h2 className='w500'>{user.customUrl}</h2>
+						<p className='w500 '>{user.name}</p>
+						<p className='w500 pb-2'>{user.customUrl}</p>
 						<Link to={`/${user.customUrl}`} onClick={profHandler}>
-							<p className='smallT pt-2 ' style={{ color: "var(--primary)" }}>View your channel</p>
+							<span className='smallT  ' style={{ color: "var(--primary)" }}>View your channel</span>
 						</Link>
 					</div>
 				</div>
-				<div className='w-full' style={{ height: "1px", backgroundColor: "var(--border)" }} />
-				<div className="flex justify-between">
-					<div onClick={switchHandler} className='flex items-center gap-4 cursor-pointer' >
+				<div className='w-full h-[1px] mt-2 bg-[var(--border)]'/>
+				<div className="flex justify-between items-center px-6 py-2 cursor-pointer hover:bg-[var(--border-mutedDim)]">
+					<div onClick={switchHandler} className='flex items-center gap-4' >
 						<Switch fill={"var(--svgHi)"} />
 						<p>Switch Accounts</p>
 					</div>
 					<RightArrow_svg fill={"var(--svgHi)"} />
 				</div>
-				<div onClick={logoutHandler} className='flex items-center gap-4 cursor-pointer'>
+				<div onClick={logoutHandler} className='flex items-center gap-4 px-6 py-2 cursor-pointer hover:bg-[var(--border-mutedDim)]'>
 					<Logout fill={"var(--svgHi)"} />
-					<p>Logout</p>
+					<p>Log out</p>
 				</div>
 			</div>
 		</>

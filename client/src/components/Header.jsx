@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { toggle } from '../Store/sBarToggleSlice.js'
-import {detect} from '../Store/deviceSlice.js'
+import { detect } from '../Store/deviceSlice.js'
 import ProfileCard from './ProfileCard'
 import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const clickHandler = () => {
-	window.location.href = "https://brotube-server.onrender.com/api/v1/user/google"
+	window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/google`
 }
 
 const getDeviceType = () => {
@@ -32,12 +32,16 @@ const getDeviceType = () => {
 const profHandler = () => {
 
 	const card = document.querySelector(".profC")
+	const main = document.querySelector("main")
 
-	if (card.classList.contains("hidden"))
+	if (card.classList.contains("hidden")) {
 		card.classList.remove("hidden")
-	else
+		main.classList.add(["overflow-hidden", "pr-2"])
+	}
+	else {
 		card.classList.add("hidden")
-
+		main.classList.remove(["overflow-hidden", "pr-2"])
+	}
 }
 
 const refectUrl = (str) => {
@@ -98,7 +102,7 @@ function Header() {
 		const loginChecker = async () => {
 
 			try {
-				const res = await axios.get("https://brotube-server.onrender.com/api/v1/user/loggedIn", { withCredentials: true })
+				const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/loggedIn`, { withCredentials: true })
 				console.log(res.data);
 
 				const user = res.data.data?.userInfo
@@ -179,79 +183,83 @@ function Header() {
 	const device = getDeviceType()
 
 	return (
-		<header className='sticky top-0 mainBg z-10'>
-			<nav className="h-18 w-full pr-6 pb-2 flex justify-between items-center">
-				<div className="flex pr-2">
-					<button className="pr-6 pl-[1.54rem] cursor-pointer" onClick={sidebarToggle}><HamIcon fill="var(--svgHi)" /></button>
-					<Link to={"/"} className='min-w-28 flex items-center'>
-						<LogoIcon className='mb-0.5 pb-0.25' fill="var(--primary)" />
-						<h1 className='logoText' >BroTube</h1>
-					</Link>
-				</div>
-				<div  className={`w- searchF w-2/5 max-w-2xl max-sm:hidden`} >
-					<form onSubmit={handleSearch} className={`flex items-center py-2 borderG rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
-						<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
-						<input
-							className='grow mr-4 text-[var(--text)] bg-transparent outline-none'
-							type='text'
-							placeholder='Search'
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							onKeyDown={handleKeyPress}
-						/>
-						{device === "desktop"? <div className='flex gap-1 pr-4 max-[51rem]:hidden'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> : ""}
-					</form>
-				</div>
-				{
-					loading ? <div className='w-20 ' />
-						:
-						<div className={`flex items-center pl-2 max-sm:gap-2`}>
-							<SearchIcon className='h-7.5 w-7.5 sm:hidden cursor-pointer' onClick={searchHandler} fill={"var(--highlight)"} />
-							{
-								user ?
-									<>
-										{navItems.with.map(({ name, Icon }) => (
-											<div className='flex' key={name}>
-												{name === "Profile" ?
-													<>
-														{user ?
-															<>
-																<button onClick={profHandler} className='w-8 h-8 cursor-pointer rounded-full overflow-hidden border-2 border-[var(--border)]' key={name}>
-																	<img src={user.picture} alt="" />
-																</button>
-																<div className='profC absolute top-16 right-6 backdrop-blur-xl rounded-xl overflow-hidden hidden'>
-																	<ProfileCard />
-																</div>
-															</>
-															:
-															""
-														}
-													</>
-													:
-													<button className='cursor-pointer' key={name}>
-														<Icon className='h-6 m-1 rounded-full' fill={"var(--svgHi)"} />
-													</button>
-												}
-											</div>
+		<>
+			<header className='absolute w-full top-0 z-50 bg-[var(--bg-darkerDim)] backdrop-blur-3xl'>
+				<nav className="h-18 w-full pr-6 pb-2 flex justify-between items-center">
+					<div className="flex pr-2">
+						<button className="pr-6 pl-[1.54rem] cursor-pointer" onClick={sidebarToggle}><HamIcon fill="var(--svgHi)" /></button>
+						<Link to={"/"} className='min-w-28 flex items-center'>
+							<LogoIcon className='mb-0.5 pb-0.25' fill="var(--primary)" />
+							<h1 className='logoText' >BroTube</h1>
+						</Link>
+					</div>
+					<div className={`searchF w-2/5 max-w-2xl max-sm:hidden`} >
+						<form onSubmit={handleSearch} className={`flex items-center py-2 border border-[var(--border)] bg-[var(--bg-darkerDim)] rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
+							<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
+							<input
+								className='grow mr-4 text-[var(--text)] bg-transparent outline-none'
+								type='text'
+								placeholder='Search'
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								onKeyDown={handleKeyPress}
+							/>
+							{device === "desktop" ? <div className='flex gap-1 pr-4 max-[51rem]:hidden'><span className='px-1 font-extrabold text-[.72rem] text-[var(--highlight)] border rounded bg-[var(--bg-light)]'>Ctrl K</span></div> : ""}
+						</form>
+					</div>
+					{
+						loading ? <div className='w-20 ' />
+							:
+							<div className={`flex items-center pl-2 max-sm:gap-2`}>
+								<SearchIcon className='h-7.5 w-7.5 sm:hidden cursor-pointer' onClick={searchHandler} fill={"var(--highlight)"} />
+								{
+									user ?
+										<>
+											{navItems.with.map(({ name, Icon }) => (
+												<div className='flex' key={name}>
+													{name === "Profile" ?
+														<>
+															{user ?
+																<>
+																	<button id='profBtn' onClick={profHandler} className='w-8 h-8 cursor-pointer rounded-full bg-[var(--border-mutedDim)] overflow-hidden border border-[var(--highlight)]' key={name}>
+																		<img id='profImg' src={user.picture} alt="" />
+																	</button>
+																</>
+																:
+																""
+															}
+														</>
+														:
+														<button className='cursor-pointer' key={name}>
+															<Icon className='h-6 m-1 rounded-full' fill={"var(--svgHi)"} />
+														</button>
+													}
+												</div>
+											))
+											}
+										</>
+										:
+										navItems.without.map((item) => (
+											<button
+												key={item.name}
+												onClick={clickHandler}
+												className='px-4 py-1.5 font-bold rounded-full cursor-pointer bg-[var(--text)] text-[var(--bg)]'
+											>
+												{item.name}
+											</button>
 										))
-										}
-									</>
-									:
-									navItems.without.map((item) => (
-										<button
-											key={item.name}
-											onClick={clickHandler}
-											className='px-4 py-1.5 font-bold rounded-full cursor-pointer'
-											style={{ backgroundColor: "var(--text)", color: "var(--bg)" }}
-										>
-											{item.name}
-										</button>
-									))
-							}
-						</div>
-				}
-			</nav>
-		</header>
+								}
+							</div>
+					}
+				</nav>
+			</header>
+			{user
+				? <div className='profC absolute top-16 right-6 z-50 rounded-xl overflow-hidden hidden'>
+					<ProfileCard />
+				</div>
+				: ""
+			}
+		</>
 	)
 }
 
