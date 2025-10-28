@@ -165,7 +165,7 @@ function Channel() {
 
 	return initLoading ? "" : (
 		<>
-			<div className={`blank absolute  top-0 left-0 bg-[var(--bg-dim)] z-30 w-full h-full flex items-center justify-center ${isAboutActive ? "" : "hidden"}`} onClick={(e) => aboutHandler(e)}>
+			<div className={`blank absolute  top-0 left-0 bg-[var(--bg-dim)] z w-full h-full flex items-center justify-center ${isAboutActive ? "" : "hidden"}`} onClick={(e) => aboutHandler(e)}>
 				<div className="flex flex-col gap-2 max-w-md mx-3 px-6 pt-6 pb-9 mt-[-3rem] bg-[var(--cd)] backdrop-blur-xl rounded-2xl">
 					<div className="flex justify-between">
 						<h2 className="pb-6">{channel.snippet.title}</h2>

@@ -224,11 +224,6 @@ button {
 	color: var(--text-muted);
 }
 
-.hori {
-	height: 1px;
-	background-color: var(--border-muted);
-}
-
 .vert {
 	width: 1px;
 	background-color: var(--border-muted);

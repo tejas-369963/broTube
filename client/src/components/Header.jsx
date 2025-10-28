@@ -184,7 +184,7 @@ function Header() {
 
 	return (
 		<>
-			<header className='sticky w-full top-0 z-40 bg-[var(--bg-darkerDim)] backdrop-blur-3xl'>
+			<header className='absolute w-full top-0 z-10 bg-[var(--bg-darkerDim)] backdrop-blur-3xl'>
 				<nav className="h-18 w-full pr-6 pb-2 flex justify-between items-center">
 					<div className="flex pr-2">
 						<button className="pr-6 pl-[1.54rem] cursor-pointer" onClick={sidebarToggle}><HamIcon fill="var(--svgHi)" /></button>
@@ -254,7 +254,7 @@ function Header() {
 				</nav>
 			</header>
 			{user
-				? <div className='profC absolute top-16 right-6 z-40 rounded-xl overflow-hidden hidden'>
+				? <div className='profC absolute top-16 right-6 z-30 rounded-xl overflow-hidden hidden'>
 					<ProfileCard />
 				</div>
 				: ""

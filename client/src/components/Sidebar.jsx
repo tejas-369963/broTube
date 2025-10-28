@@ -171,7 +171,7 @@ function Sidebar() {
 										</>
 									)}
 								</NavLink>
-									: <div className="my-2 mx-2 hori"></div>}
+									: <div className="h-px bg-[var(--border-muted)] my-2 mx-2"></div>}
 							</li>
 						))}
 					</ul>

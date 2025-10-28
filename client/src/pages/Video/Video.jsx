@@ -82,7 +82,7 @@ function Video() {
 	return initLoading ?
 		<Loader />
 		: (
-			<div className='w-full h-full  flex gap-8'>
+			<div className='w-full h-full  flex gap-8 -mt-18'>
 				<div className='vd w-full overflow-x-hidden '>
 					<section className='pt-18'>
 						<div className='aspect-video rounded-xl overflow-hidden'>

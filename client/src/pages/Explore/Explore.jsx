@@ -83,7 +83,7 @@ function Explore() {
 	}, [active])
 
 	return (
-		<div className='w-full overflow-hidden mt-18 borderG rounded-3xl' style={{ height: "calc(100dvh - 5.7rem)" }}>
+		<div className='w-full overflow-hidden borderG rounded-3xl' style={{ height: "calc(100dvh - 5.7rem)" }}>
 			<div className='w-full h-full overflow-y-scroll '>
 				<div className='w-full'>
 					<div className='flex justify-between items-center p-6 pb-3'>
