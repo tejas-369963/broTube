@@ -34,7 +34,6 @@ const router = createBrowserRouter(
 			<Route path='/watchLater' element={<WatchLater />} />
 			<Route path='/likedVideos' element={<LikedVideos />} />
 			<Route path='/u/playlists' element={<Playlists />} />
-			<Route path='/u/playlists/:p' element={<Playlist />} />
 			<Route path='/playlists/:p' element={<Playlist />} />
 			<Route path='/collections' element={<Collections />} />
 			<Route path='/subscriptions' element={<Subs />} />

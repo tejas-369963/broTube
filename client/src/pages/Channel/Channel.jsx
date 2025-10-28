@@ -205,8 +205,12 @@ function Channel() {
 			<div className=" relative max-w-7xl h-full mx-auto ">
 				<div>
 					<div className="relative">
-						<div className="w-full aspect-[6/1] sm:rounded-2xl overflow-hidden">
-							<img className="w-full h-full object-cover" src={channel?.brandingSettings.image.bannerExternalUrl || ""} alt="" />
+						<div className="w-full aspect-[6/1] sm:rounded-2xl bg-[var(--border)] overflow-hidden">
+							{channel.brandingSettings.image.bannerExternalUrl
+								? <img className="w-full h-full object-cover" src={channel?.brandingSettings.image.bannerExternalUrl} alt="" />
+								: ""
+							}
+
 						</div>
 						<div className="flex justify-between gap-4">
 							<div className="flex justify-between gap-4 ml-4">
@@ -233,7 +237,7 @@ function Channel() {
 							</div>
 						</div>
 					</div>
-					<ul className='nav flex items-center gap-18 gText smallT px-6 pt-9 bg-dark z-10 overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
+					<ul className='nav flex items-center gap-18 gText smallT px-6 pt-9 bg-dark border-b border-b-[var(--border-muted)] z-10 overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
 						{navItems?.map((item) => (
 							<li key={item?.tag}>
 								<p className={`pb-3 cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>
@@ -241,7 +245,6 @@ function Channel() {
 							</li>
 						))}
 					</ul>
-					<div className="w-full h-px  bg-[var(--border-muted)]" />
 				</div>
 				{vLoading ? <Loader h={1} />
 					: active === "Videos" ?

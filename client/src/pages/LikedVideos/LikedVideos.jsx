@@ -83,6 +83,7 @@ function LikedVideos() {
 										customUrl={video?.chDetails?.snippet?.customUrl}
 										channelProfile={video?.chDetails?.snippet?.thumbnails?.default?.url}
 										channelName={video?.snippet?.videoOwnerChannelTitle}
+										channelId={video?.chDetails.id}
 										views={video.vDetails?.statistics?.viewCount}
 										likes={video.vDetails?.statistics?.likeCount}
 										publishedAt={video?.contentDetails?.videoPublishedAt}

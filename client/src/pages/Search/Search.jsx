@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Loader from '../../components/Loader.jsx'
 import HomeVideoCard from "../../components/HomeVideoCard.jsx"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -12,6 +12,7 @@ function Search() {
 	const [suggestions, setSuggestions] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [initLoading, setInitLoading] = useState()
+	const searchRef = useRef(null)
 
 	const navigate = useNavigate()
 
@@ -39,22 +40,24 @@ function Search() {
 		e.preventDefault()
 
 		if (!searchQuery.trim()) return
+
+		searchRef.current.blur()
 		
 		setSearchParams({q: encodeURIComponent(searchQuery)})
 
 	}
 
 	const handleKeyPress = (e) => {
-		if (e.key === "Enter")
+		if (e.key === "Enter"){
+			e.preventDefault()
 			handleSearch(e)
+		}
 	}
 
 	useEffect(() => {
-		const searchInput = document.querySelector('#search')
-		// console.log(searchInput);
 
-		if (searchInput) {
-			searchInput.focus()
+		if (searchRef.current) {
+			searchRef.current.focus()
 		}
 		if (searchParams.get("q")) {
 			setLoading(true)
@@ -67,10 +70,11 @@ function Search() {
 		? <Loader />
 		: (
 			<>
-				<div className={`sm:hidden w-dvw absolute left-0 top-0 pt-3 px-3 bg-[var(--bg-dim)]  z-50 `}>
+				<div className={`sm:hidden w-dvw fixed left-0 top-0 pt-3 px-3 bg-[var(--bg-dark)]  z-50 `}>
 					<form onSubmit={handleSearch} className={`flex items-center py-2 borderG rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
 						<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
 						<input
+							ref={searchRef}
 							id="search"
 							className='grow mr-4 text-[var(--text)] bg-transparent outline-none'
 							type='text'

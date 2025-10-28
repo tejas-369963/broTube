@@ -115,7 +115,9 @@ function Subs() {
 							<div className='' key={channel.id}>
 								<div className='flex justify-between py-4'>
 									<div className='flex gap-4'>
-										<img className='h-12.5 rounded-full' src={channel.snippet.thumbnails.medium.url} alt="" />
+										<div className='w-12.5 h-12.5 bg-[var(--highlight)] rounded-full'>
+											<img className='rounded-full' src={channel.snippet.thumbnails.medium.url} alt="" />
+										</div>
 										<div>
 											<h3>{channel.snippet.title}</h3>
 											<p className='text-[var(--text-muted)]'>{convertViews(channel.chDetails.statistics.subscriberCount)} subscribers</p>
