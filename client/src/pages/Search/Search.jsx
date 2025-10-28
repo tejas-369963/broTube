@@ -51,7 +51,7 @@ function Search() {
 
 	useEffect(() => {
 		const searchInput = document.querySelector('#search')
-		console.log(searchInput);
+		// console.log(searchInput);
 
 		if (searchInput) {
 			searchInput.focus()

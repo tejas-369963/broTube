@@ -47,9 +47,9 @@ function App() {
 	return (
 		<>
 		<Header />
-			<div className={`h-dvh flex gap-4 mr-0.5`}>
+			<div className={`h-dvh flex gap-4 mr-0.5 -mt-18`}>
 				<Sidebar />
-				<main className={`overflow-x-hidden max-w-[117rem] mx-auto pt-18 ${ isToggled && !isSizeSmall ? "pl-24.5" : ""} ${ isSizeSmall ? "pl-2 pr-2" : "pr-6"}`}>
+				<main className={`overflow-x-hidden max-w-[117rem] mx-auto pt18 ${ isToggled && !isSizeSmall ? "pl-24.5" : ""} ${ isSizeSmall ? "pl-2 pr-2" : "pr-6"}`}>
 					<Outlet />
 				</main>
 			</div>
