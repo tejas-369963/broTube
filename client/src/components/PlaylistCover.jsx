@@ -22,7 +22,7 @@ function PlaylistCover({
 	channelName = "",
 	views = "",
 	publishedAt = "",
-	duration="",
+	duration = "",
 	d = true,
 	l = false
 }) {
@@ -37,8 +37,14 @@ function PlaylistCover({
 		<>
 			<Link to={`/watch/v=${id}`}>
 				<div className={` relative cov ${d ? "rounded-xl" : "min-w-42 max-w-42 max-h-24.75 min-h-24.75 rounded-md"} overflow-hidden aspect-video `}>
-					<img className='h-full w-full object-cover ' src={thumbnail} alt="" />
-					<div className='absolute right-1 bottom-1 px-1 bg-[var(--bg-darkDim)] rounded-sm ssmallT'>{duration}</div>
+					<SafeImage
+						src={thumbnail}
+						alt="product"
+						className="h-full w-full object-cover"
+						place={"video"}
+					/>
+					{/* <img className='h-full w-full object-cover ' src={thumbnail} alt="" /> */}
+					<div className='absolute right-1 bottom-1 px-1 bg-[var(--cd)] rounded-sm ssmallT'>{duration}</div>
 				</div>
 			</Link>
 
@@ -49,7 +55,13 @@ function PlaylistCover({
 						<Link
 							to={`/${customUrl}`}
 							className='min-w-12 cursor-pointer'>
-							<img className='h-10.5 rounded-full' src={channelProfile} alt="" />
+							<SafeImage
+								src={channelProfile}
+								alt=""
+								className="h-10.5 rounded-full"
+								place={"user"}
+							/>
+							{/* <img className='h-10.5 rounded-full' src={channelProfile} alt="" /> */}
 						</Link>
 						: ""
 					}

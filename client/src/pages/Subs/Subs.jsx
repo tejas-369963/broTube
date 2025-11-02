@@ -6,6 +6,7 @@ import { convertViews } from '../../utils/convertStuff.js'
 import Up from '../../icons/Up.jsx'
 import Down_svg from '../../icons/Down_svg.jsx'
 import HomeVideoCard from '../../components/HomeVideoCard.jsx'
+import SafeImage from '../../components/SafeImage.jsx'
 
 function Subs() {
 
@@ -98,7 +99,7 @@ function Subs() {
 	}
 
 	return !loading && user === null
-		? <div className="w-full h-full flex flex-col justify-center items-center text-center -mt-12 space-y-2">
+		? <div className="w-full h-[calc(100dvh-1.5rem)] flex flex-col justify-center items-center text-center -mt-12 space-y-2">
 			<h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
 				Login to see
 			</h1>
@@ -115,8 +116,12 @@ function Subs() {
 							<div className='' key={channel.id}>
 								<div className='flex justify-between py-4'>
 									<div className='flex gap-4'>
-										<div className='w-12.5 h-12.5 bg-[var(--highlight)] rounded-full'>
-											<img className='rounded-full' src={channel.snippet.thumbnails.medium.url} alt="" />
+										<div className='w-12.5 h-12.5 bg-[var(--highlight)] rounded-full overflow-hidden'>
+											<SafeImage
+												src={channel.snippet.thumbnails.medium.url}
+												alt=""
+												place={"user"}
+											/>
 										</div>
 										<div>
 											<h3>{channel.snippet.title}</h3>

@@ -8,20 +8,20 @@
 
 	--lff: "Oswald";
 	--bg-dark: oklch(6.883% 0.03618 302.892 / 0.963);
-	--bg-darkDim: oklch(6.883% 0.03618 302.892 / 0.42);
-	--bg-darkerDim: oklch(14.792% 0.00441 285.53 / 0.72);
+	--bg-darkDim: oklch(14.792% 0.00441 285.53 / 0.81);
+	--bg-darkerDim: oklch(14.792% 0.00441 285.53 / 0.87);
 	--bg-dim: oklch(26.862% 0.00003 271.152 / 0.194);
 	--bg: oklch(0.15 0.02 299);
 	--bg-light: oklch(0.2 0.03 293);
 	--cd: oklch(19.82% 0.02993 292.626 / 0.803);
-	--pro: oklch(19.82% 0.02993 292.626 / 0.828);
+	--pro: oklch(19.82% 0.02993 292.626 / 0.912);
 	--text: oklch(0.945 0.06 293);
-	--svgHi: oklch(0.93 0.06 293);
+	--svgHi: oklch(92.515% 0.04129 297.724);
 	--text-muted: oklch(0.75 0.06 293);
 	--text-muted: oklch(0.75 0.06 293);
 	--highlight: oklch(0.5 0.04 299);
 	--border: oklch(0.4 0.04 299);
-	--border-muted: oklch(0.3 0.04 299);
+	--border-muted: oklch(29.864% 0.0402 298.538);
 	--border-mutedDim: oklch(29.864% 0.0402 298.538 / 0.540);
 	--primary: oklch(62.989% 0.18009 293.169);
 	--secondary: oklch(0.76 0.1 119);
@@ -32,7 +32,7 @@
 
 	--h1: 1.75rem/1.775rem var(--ff);
 	--h2: 1.45rem/1.4375rem var(--ff);
-	--h3: 1.125rem/1.77rem var(--ff);
+	--h3: 1.125rem/1.63rem var(--ff);
 	--h4: 0.875rem/1.25rem var(--ff);
 	--nav: 1rem/1.5rem var(--ff);
 	--p: 1rem/1.8rem var(--ff);
@@ -141,21 +141,48 @@ aside p {
 	font: var(--p2);
 }
 
-#loader svg path {
+#loader svg .outer {
 	stroke: var(--primary);
 	stroke-dasharray: 123;
 	stroke-dashoffset: 123;
-	animation: logo 1s ease-in-out infinite alternate;
+	animation: logoOuter 1.5s ease-in-out infinite alternate;
 }
 
-@keyframes logo {
+#loader svg .inner {
+	stroke: var(--primary);
+	stroke-dasharray: 39;
+	stroke-dashoffset: 39;
+	animation: logoInner 1.5s ease-in-out infinite alternate;
+}
 
-  0%{
-    stroke-dashoffset: 123;
-  }
-  100%{
-    stroke-dashoffset: 0;
-  }
+@keyframes logoOuter {
+
+	0% {
+		stroke-dashoffset: 123;
+	}
+
+	75% {
+		stroke-dashoffset: 0;
+	}
+
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes logoInner {
+
+	0% {
+		stroke-dashoffset: 39;
+	}
+
+	75% {
+		stroke-dashoffset: 0;
+	}
+
+	100% {
+		stroke-dashoffset: 0;
+	}
 }
 
 .nav p {

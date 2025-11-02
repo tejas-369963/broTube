@@ -3,8 +3,11 @@ import { useEffect, useState } from "react"
 import Loader from "./Loader"
 import { convertDate, convertViews } from "../utils/convertStuff"
 import { DisLikeIcon, Like_svg, ReplyIcon } from "../icons"
+import Des from '../components/Des'
+import VideoDescription from "../components/Des"
+import SafeImage from "./SafeImage"
 
-function Comments({vId}) {
+function Comments({ vId }) {
 
 	const [comments, setComments] = useState([])
 	const [loading, setLoading] = useState(false)
@@ -12,14 +15,14 @@ function Comments({vId}) {
 	const [nextPageToken, setNextPageToken] = useState("")
 
 	const fetchComments = (async () => {
-		if(loading) return
+		if (loading) return
 		setLoading(true)
-		if(initLoading === "init") setInitLoading(true)
-			try {
-		const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/home/com?pageToken=${nextPageToken || ""}`, { vId })
-		setComments(prev => [...prev, ...res.data.data.comments])
-		console.log("comm --->", res.data);
-		setNextPageToken(res.data.data.nextPageToken)
+		if (initLoading === "init") setInitLoading(true)
+		try {
+			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/home/com?pageToken=${nextPageToken || ""}`, { vId })
+			setComments(prev => [...prev, ...res.data.data.comments])
+			console.log("comm --->", res.data);
+			setNextPageToken(res.data.data.nextPageToken)
 
 		} catch (error) {
 			console.error('Failed to fetch suggestion:', error.message)
@@ -57,9 +60,19 @@ function Comments({vId}) {
 			<div>
 				<div className='py-2'>
 					{comments.map((comment) => (
-						<div  key={comment.id}className='py-5' >
+						<div key={comment.id} className='py-5' >
 							<div className='flex'>
-								{comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl ? <div className='min-h-12 max-h-12 min-w-12 max-w-12 rounded-full overflow-hidden'><img src={comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl} alt="" /></div> : <div className='min-h-12 max-h-12 min-w-12 max-w-12 bgGray rounded-full'></div>}
+								{comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl
+									? <div className='min-h-12 max-h-12 min-w-12 max-w-12 rounded-full overflow-hidden'>
+										<SafeImage
+											src={comment?.snippet.topLevelComment?.snippet.authorProfileImageUrl}
+											alt="product"
+											className="border border-[var(--highlight)] rounded-full"
+											place={"user"}
+										/>
+									</div>
+									: <div className='min-h-12 max-h-12 min-w-12 max-w-12 bgGray rounded-full' />
+								}
 								<div className='pl-2 max-w-[dvw-.3rem] spC overflow-x-auto'>
 									<div className='flex gap-2 items-center pb-2.5'>
 										<div className='smallT '>
@@ -67,18 +80,15 @@ function Comments({vId}) {
 										</div>
 										<span className='ssmallT gText'>{convertDate(comment?.snippet.topLevelComment?.snippet.publishedAt)}</span>
 									</div>
-									<div className='pb-2.5  '>
-										{comment?.snippet.topLevelComment?.snippet.textDisplay}
-									</div>
+									<VideoDescription text={comment?.snippet.topLevelComment?.snippet.textOriginal} />
 								</div>
 							</div>
-							<div className='flex gap-4 pl-14 py-1  smallT'>
+							{/* <div className='flex gap-4 pl-14 py-1  smallT'>
 								<div className='flex items-center'>
 									<button
 										className='h-8 flex items-center gap-2 px-4 rounded-l-full bgGray'
 									>
 										<Like_svg stroke='var(--svgHi)' />
-										{/* <p>{`${convertViews(video?.video[0]?.statistics.likeCount)}`}</p> */}
 									</button>
 									<div className='bgGray h-full py-1 '><div className='vert h-full'></div></div>
 									<button
@@ -105,7 +115,7 @@ function Comments({vId}) {
 										</> : ""
 									}
 								</div>
-							</div>
+							</div> */}
 						</div>
 					))}
 					{comments.length ? <div id='infiScroll' className='h-px mb-2 '></div> : ""}

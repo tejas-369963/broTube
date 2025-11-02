@@ -12,6 +12,7 @@ import { detect } from '../Store/deviceSlice.js'
 import ProfileCard from './ProfileCard'
 import { login } from '../Store/authSlice'
 import { useNavigate } from 'react-router-dom'
+import SafeImage from './SafeImage.jsx'
 
 const clickHandler = () => {
 	window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/google`
@@ -184,17 +185,17 @@ function Header() {
 
 	return (
 		<>
-			<header className='absolute w-full top-0 z-30 bg-[var(--bg-darkerDim)] backdrop-blur-3xl'>
+			<header className='absolute w-full top-0 z-30 sm:bg-[var(--bg-darkDim)] bg-[var(--bg-darkerDim)] backdrop-blur-3xl'>
 				<nav className="h-18 w-full pr-6 pb-2 flex justify-between items-center">
 					<div className="flex pr-2">
 						<button className="pr-6 pl-[1.54rem] cursor-pointer" onClick={sidebarToggle}><HamIcon fill="var(--svgHi)" /></button>
 						<Link to={"/"} className='min-w-28 flex items-center'>
-							<LogoIcon className='mb-0.5 pb-0.25' fill="var(--primary)" />
+							<LogoIcon className='' fill="var(--primary)" />
 							<h1 className='logoText' >BroTube</h1>
 						</Link>
 					</div>
 					<div className={`searchF w-2/5 max-w-2xl max-sm:hidden`} >
-						<form onSubmit={handleSearch} className={`flex items-center py-2 border border-[var(--border)] bg-[var(--bg-darkerDim)] rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
+						<form onSubmit={handleSearch} className={`flex items-center py-2 border border-[var(--border)] bg-[var(--bg-darkDim)] rounded-full cursor-pointer max-sm:bg-[var(--bg-dark)]`}>
 							<SearchIcon className=' mx-4 ' fill={"var(--highlight)"} />
 							<input
 								className='grow mr-4 text-[var(--text)] bg-transparent outline-none'
@@ -221,8 +222,13 @@ function Header() {
 														<>
 															{user ?
 																<>
-																	<button id='profBtn' onClick={profHandler} className='w-8 h-8 cursor-pointer rounded-full bg-[var(--border-mutedDim)] overflow-hidden border border-[var(--highlight)]' key={name}>
-																		<img id='profImg' src={user.picture} alt="" />
+																	<button id='profBtn' onClick={profHandler} className='w-8 h-8 cursor-pointer rounded-full overflow-hidden border border-[var(--highlight)]' key={name}>
+																		<SafeImage
+																			id={"profImg"}
+																			src={user.picture}
+																			alt="product"
+																			place={"user"}
+																		/>
 																	</button>
 																</>
 																:

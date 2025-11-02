@@ -24,6 +24,7 @@ import { toggle } from '../../Store/sBarToggleSlice'
 import Suggestions from '../../components/Suggestions'
 import Comments from '../../components/Comments'
 import Loader from '../../components/Loader'
+import SafeImage from '../../components/SafeImage'
 
 function Video() {
 
@@ -81,20 +82,28 @@ function Video() {
 
 	return initLoading ?
 		<Loader />
+		// http://localhost:5173/watch/v=3u0bGaim7Fs
 		: (
-			<div className='w-full h-full  flex gap-8 -mt-18'>
-				<div className='vd w-full overflow-x-hidden '>
-					<section className='pt-18'>
-						<div className='aspect-video rounded-xl overflow-hidden'>
-							<VideoPlayer videoId={vId} />
-						</div>
+			<div className='w-full h-dvh flex gap-8 -mt-18'>
+				<div className='vd w-full overflow-x-hidden'>
+					<div className='w-full mt-18 aspect-video rounded-xl overflow-hidden'>
+						<VideoPlayer videoId={vId} />
+					</div>
+					<section className='max-sm:pl-0 max-lg:pl-6'>
 						<div className='pb-4'>
 							<p className='pt-6 sm:text-[1.45rem] text-[1.125rem] font-[500] '>{video.video[0].snippet.title}</p>
 
-							<div className='flex flex-wrap gap-4'>
+							<div className='flex flex-wrap  gap-4'>
 								<div className='flex grow justify-between gap-4 pt-4'>
 									<div className='h-12 flex gap-3'>
-										<Link className='flex' to={`/ch=${video.channel[0]?.id}`}><img className='rounded-full' src={video?.channel[0]?.snippet?.thumbnails.medium.url} alt="" /></Link>
+										<Link className='h-12 w-12 rounded-full overflow-hidden' to={`/ch=${video.channel[0]?.id}`}>
+											<SafeImage
+												src={video?.channel[0]?.snippet?.thumbnails.medium.url}
+												alt="product"
+												className="w-full"
+												place={"user"}
+											/>
+										</Link>
 										<div className=''>
 											<div className='flex gap-2 items-center'>
 												<Link to={`/ch=${video.channel[0]?.id}`}><p className='sm:text-[1.125rem] sm:font-[500]'>{video.video[0]?.snippet?.channelTitle}</p></Link>
@@ -104,7 +113,7 @@ function Video() {
 										</div>
 									</div>
 								</div>
-								<div className='flex gap-2 pb-3'>
+								<div className='flex gap-2'>
 									<div className='flex items-center gap-1'>
 										<ViIcon fill='var(--highlight)' />
 										<span className=' text-[var(--text-muted)]'>{`${convertViews(video?.video[0]?.statistics.viewCount)}`}</span>
@@ -120,19 +129,19 @@ function Video() {
 							? <div className='p-4 borderG rounded-2xl'>
 								<Des text={video?.video[0]?.snippet?.description} />
 							</div>
-							: ""
+							: <div className='w-full h-px bg-[var(--border-muted)]'></div>
 						}
 					</section>
-					<section className={`sug pt-8 ${isSizeSmall ? "" : "hidden"}`}>
+					<section className={`sug pt-8 max-sm:pl-0 max-lg:pl-6 ${isSizeSmall ? "" : "hidden"}`}>
 						<div className='pb-4'><h2>Trending Videos</h2></div>
 						<Suggestions tags={video.video[0]?.snippet.tags?.[0]} />
 					</section>
-					<section className=''>
+					<section className='max-sm:pl-0 max-lg:pl-6'>
 						<Comments vId={vId} />
 					</section>
 				</div>
-				<section className={`sidSug w-xl netHight overflow-y-auto sticky top-0 ${isSizeSmall ? "hidden" : ""}`}>
-					<div className='sticky top-0 bg-dark pb-4 z-10'><h2>Trending Videos</h2></div>
+				<section className={`sidSug w-xl mt-18 overflow-y-auto ${isSizeSmall ? "hidden" : ""}`}>
+					<div className='sticky -top-0.5 bg-[var(--bg-dark)] py-4 z-10'><h2>Trending Videos</h2></div>
 					<Suggestions tags={video.video[0]?.snippet.tags?.[0]} v={true} />
 				</section>
 			</div>

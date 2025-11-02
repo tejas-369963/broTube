@@ -84,7 +84,7 @@ function Explore() {
 
 	return (
 		<div className='w-full overflow-hidden borderG rounded-3xl' style={{ height: "calc(100dvh - 5.7rem)" }}>
-			<div className='w-full h-full overflow-y-scroll '>
+			<div id='explore' className='w-full h-full overflow-x-hidden '>
 				<div className='w-full'>
 					<div className='flex justify-between items-center p-6 pb-3'>
 						<div className='flex items-center gap-4'>
@@ -92,7 +92,7 @@ function Explore() {
 							<h1>{"Trending"}</h1>
 						</div>
 					</div>
-					<ul className='nav sticky -top-4 flex gap-16 px-6 pt-9 bg-[var(--bg-darkerDim)] backdrop-blur-3xl border-b border-b-[var(--border-muted)] z-10 overflow-x-auto exnav'>
+					<ul className='nav sticky -top-4 flex gap-16 px-6 pt-9 sm:bg-[var(--bg-darkDim)] bg-[var(--bg-darkerDim)] backdrop-blur-3xl border-b border-b-[var(--border-muted)] z-10 overflow-x-auto exnav'>
 						{navItems?.map((item) => (
 							<li key={item?.tag}>
 								<p className={`pb-3 text-sm text-[var(--text-muted)] cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>

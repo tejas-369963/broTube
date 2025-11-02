@@ -55,7 +55,7 @@ function Playlists() {
 	}, [nextPageToken, loading])
 
 	return !loading && user === null
-		? <div className="w-full h-full flex flex-col justify-center items-center text-center -mt-12 space-y-2">
+		? <div className="w-full h-[calc(100dvh-1.5rem)] flex flex-col justify-center items-center text-center -mt-12 space-y-2">
 			<h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
 				Login to see
 			</h1>

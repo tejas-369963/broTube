@@ -14,7 +14,6 @@ import { NavLink, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggle } from '../Store/sBarToggleSlice.js'
 import { useEffect, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
 
 function Sidebar() {
 
@@ -56,7 +55,7 @@ function Sidebar() {
 			name: "Playlists",
 			Icon: Playlist_svg,
 			url: "/u/playlists",
-			dropDown: true
+			// dropDown: true
 		},
 		// {
 		//	 name: "divider",
@@ -71,7 +70,7 @@ function Sidebar() {
 			name: "Subscriptions",
 			Icon: Subs_svg,
 			url: "/subscriptions",
-			dropDown: true
+			// dropDown: true
 		},
 		{
 			name: "divider",
@@ -117,26 +116,6 @@ function Sidebar() {
 
 	window.addEventListener("resize", resizeHandler)
 
-	const [isSizeSmall, setIsSizeSmall] = useState(window.matchMedia("(max-width: 639px)").matches)
-
-	useEffect(() => {
-		if (window.matchMedia("(max-width: 639px)").matches)
-			setIsSizeSmall(true)
-		else
-			setIsSizeSmall(false)
-	}, [])
-
-	const resizHandler = () => {
-		if (window.matchMedia("(max-width: 639px)").matches) {
-			setIsSizeSmall(true)
-		}
-		else {
-			setIsSizeSmall(false)
-		}
-	}
-
-	window.addEventListener("resize", resizHandler)
-
 	const sideHandler = (e) => {
 		if(e.target.tagName === "ASIDE")
 			dispatch(toggle(false));
@@ -144,9 +123,9 @@ function Sidebar() {
 
 	return (
 		<>
-			<aside className={`h-full z-30 pt-18 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${isSizeSmall && !isToggled  ? "hidden" : ""}`} onClick={(e) => sideHandler(e)}>
-				<nav className={`h-full mx-[-.2rem] ${isToggled ? "min-w-68 max-w-68 bg-[var(--bg-darkerDim)] backdrop-blur-3xl" : "max-w-20.5 min-w-20.5 "} sidT  smallT w500`}>
-					<ul className={`px-4 pt-4 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
+			<aside className={`h-full z-20 pt-18 ${isToggled ? window.matchMedia("(max-width: 1300px)").matches || v ? "w-dvw z-10 absolute bg-[var(--bg-dim)]" : "min-w-68" : "min-w-20.5 max-w-20.5"} ${!isToggled  ? v ? "max-lg:hidden": "max-sm:hidden" : ""}`} onClick={(e) => sideHandler(e)}>
+				<nav className={`h-full -mx-[.2rem] ${isToggled ? "min-w-68 max-w-68 sm:bg-[var(--bg-darkDim)] bg-[var(--bg-darkerDim)] backdrop-blur-3xl" : "max-w-20.5 min-w-20.5 "} sidT  smallT w500`}>
+					<ul className={`px-4 pt-2 ${isToggled ? "min-w-68 max-w-68" : "min-w-20.5 max-w-20.5"}`}>
 						{navItems.map(({ name, Icon, url, dropDown }) => (
 							<li key={Math.random()} className='pb-0.5' >
 								{name != "divider" ? <NavLink

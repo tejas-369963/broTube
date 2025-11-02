@@ -108,11 +108,31 @@ const convertDuration = (d) => {
 	return res
 }
 
+function formatDescription(text) {
+	if (!text) return "";
 
+  // Convert URLs into clickable links
+  let formatted = text.replace(
+    /(https?:\/\/[^\s]+)/g,
+    (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: var(--primary);">${url}</a>`
+  );
+
+  // Convert timestamps (e.g., 0:30 or 1:23:45) into clickable spans
+  formatted = formatted.replace(
+    /\b(\d{1,2}:\d{2}(?::\d{2})?)\b/g,
+    (match) => `<span class="timestamp" style="color: var(--primary); cursor: pointer;">${match}</span>`
+  );
+
+  // Optional: Convert **bold text** (e.g., **hello**) to <strong>
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+  return formatted.replace(/\n/g, '<br/>');
+}
 
 export {
 	convertDate,
 	convertDateToString,
 	convertViews,
-	convertDuration
+	convertDuration,
+	formatDescription
 }

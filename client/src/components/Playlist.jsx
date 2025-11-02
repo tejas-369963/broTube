@@ -56,7 +56,7 @@ function Playlist() {
 			<>
 				{/* <h1></h1> */}
 				{videos.length ?
-					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
+					<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-4 pb-4'>
 						{videos?.map((video) => (
 							<div className='sm:flex gap-4' key={video.id}>
 								<HomeVideoCard

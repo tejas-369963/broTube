@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import VideoListCard from '../../components/VideoListCard'
 import ListCover from '../../components/ListCover'
 import Circle from '../../icons/Circle'
 import { Down_svg, Like_svg, LikeIcon, SearchIcon } from '../../icons'
@@ -18,7 +17,6 @@ function LikedVideos() {
 	const user = useSelector(state => state.auth.userData)
 
 	const fetchVideos = (async () => {
-		console.log("yo");
 
 		if (loading) return
 		setLoading(true)
@@ -57,7 +55,7 @@ function LikedVideos() {
 
 	return !loading && user === null
 
-		? <div className="w-full h-full flex flex-col justify-center items-center text-center -mt-12 space-y-2">
+		? <div className="w-full h-[calc(100dvh-1.5rem)] flex flex-col justify-center items-center text-center -mt-12 space-y-2">
 			<h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
 				Login to see
 			</h1>
@@ -70,7 +68,7 @@ function LikedVideos() {
 			: (
 				<>
 					{videos.length ?
-						<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-8 pb-4'>
+						<div className='max-w-7xl mx-auto h-fit flex flex-col gap-x-4 gap-y-4 pb-4'>
 							<div className='flex items-center gap-4 pt-4'>
 								<h1>Liked Videos</h1>
 							</div>

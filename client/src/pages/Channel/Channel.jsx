@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Loader from "../../components/Loader"
 import axios from "axios"
-import { convertDateToString, convertViews } from "../../utils/convertStuff"
+import { convertDateToString, convertViews, formatDescription } from "../../utils/convertStuff"
 import { SearchIcon, StickIcon, Tick, ViIcon } from "../../icons"
 import VideoCard from "../../components/HomeVideoCard"
 import { nanoid } from "@reduxjs/toolkit"
@@ -12,6 +12,7 @@ import World from "../../icons/World"
 import User from "../../icons/User"
 import I from "../../icons/I"
 import PlayBtn from "../../icons/PlayBtn"
+import SafeImage from "../../components/SafeImage"
 
 const description = (str) => {
 
@@ -40,15 +41,14 @@ function Channel() {
 	const [videoTag, setVideoTag] = useState("")
 	const [active, setActive] = useState("")
 	const [videos, setVideos] = useState([])
-	const [vidNextPageToken, setVidNextPageToken] = useState("")
 	const [id, setId] = useState({})
 	const [playlists, setPlaylists] = useState([])
-	const [plyNextPageToken, setPlyNextPageToken] = useState("")
 	const [nextPageToken, setNextPageToken] = useState("")
 	const [loading, setLoading] = useState(false)
 	const [vLoading, setVLoading] = useState("init")
 	const [initLoading, setInitLoading] = useState("init")
 	const [isAboutActive, setIsAboutActive] = useState(false)
+	const [descriptionText, setDescriptionText] = useState("")
 	const { ch } = useParams()
 
 	const channelId = ch.split("=")
@@ -121,7 +121,6 @@ function Channel() {
 				setPlaylists(prev => [...prev, ...res.data.data.resData])
 				setNextPageToken(res.data.data.nextPageToken)
 			}
-
 		} catch (err) {
 			console.error('Failed to fetch video:', err.message);
 		} finally {
@@ -165,57 +164,66 @@ function Channel() {
 
 	return initLoading ? "" : (
 		<>
-			<div className={`blank absolute  top-0 left-0 bg-[var(--bg-dim)] z w-full h-full flex items-center justify-center ${isAboutActive ? "" : "hidden"}`} onClick={(e) => aboutHandler(e)}>
-				<div className="flex flex-col gap-2 max-w-md mx-3 px-6 pt-6 pb-9 mt-[-3rem] bg-[var(--cd)] backdrop-blur-xl rounded-2xl">
+			<div className={`blank absolute  pt-9 top-0 left-0 bg-[var(--bg-dim)] z w-full h-full flex items-center justify-center ${isAboutActive ? "" : "hidden"} z-50`} onClick={(e) => aboutHandler(e)}>
+				<div className="relative flex flex-col gap-2 sm:min-w-xs max-w-md max-h-4/5 mx-3 px-2 py-6 bg-[var(--cd)] backdrop-blur-xl rounded-2xl overflow-x-hidden">
 					<div className="flex justify-between">
-						<h2 className="pb-6">{channel.snippet.title}</h2>
-						<div onClick={closeHandler} className="close cursor-pointer m-[-.3rem]"><Close /></div>
+						<h2 className="pb-4 px-4">{channel.snippet.title}</h2>
+						<div onClick={closeHandler} className="close mr-2 -mt-2"><Close className={"cursor-pointer p-1 w-9 h-9 rounded-full hover:bg-[var(--border)]"} /></div>
 					</div>
-					<div>
-						<h2>Description</h2>
-						<p className="smallT py-2">{channel.snippet.description}</p>
-					</div>
-					<div className="">
-						<h2>More Info</h2>
-						<ul className="flex flex-col gap-4 pt-2">
-							<li className="flex items-center gap-2">
-								<World />
-								<p className="smallT">{channel.brandingSettings.channel.country}</p>
-							</li>
-							<li className="flex items-center gap-2">
-								<I fill="var(--text)" />
-								<p className="smallT">Joined {convertDateToString(channel.snippet.publishedAt)}</p>
-							</li>
-							<li className="flex items-center gap-2">
-								<PlayBtn className={"w-5 h-5 mx-0.5 border rounded-[.2rem]"} />
-								<p className="smallT">{convertViewsToIn(channel.statistics.videoCount)} videos</p>
-							</li>
-							<li className="flex items-center gap-2">
-								<User />
-								<p className="smallT">{convertViews(channel.statistics.subscriberCount)} subscribers</p>
-							</li>
-							<li className="flex items-center gap-2">
-								<ViIcon fill="var(--text)" />
-								<p className="smallT">{convertViewsToIn(channel.statistics.viewCount)} views</p>
-							</li>
-						</ul>
+					<div className="w-full px-4 overflow-x-hidden">
+						<div className="pt-2">
+							<h3 className="font-[600]">Description</h3>
+							<p className="smallT py-3" dangerouslySetInnerHTML={{ __html: formatDescription(channel.snippet.description) }}></p>
+						</div>
+						<div className="pt-2">
+							<h3 className="font-[600]">More Info</h3>
+							<ul className="flex flex-col gap-4 pt-3">
+								<li className="flex items-center gap-2">
+									<World />
+									<p className="smallT">{channel.brandingSettings.channel.country}</p>
+								</li>
+								<li className="flex items-center gap-2">
+									<I fill="var(--text)" />
+									<p className="smallT">Joined {convertDateToString(channel.snippet.publishedAt)}</p>
+								</li>
+								<li className="flex items-center gap-2">
+									<PlayBtn className={"w-5 h-5 mx-0.5 border rounded-full"} />
+									<p className="smallT ">{convertViewsToIn(channel.statistics.videoCount)} videos</p>
+								</li>
+								<li className="flex items-center gap-2">
+									<User />
+									<p className="smallT">{convertViews(channel.statistics.subscriberCount)} subscribers</p>
+								</li>
+								<li className="flex items-center gap-2">
+									<ViIcon fill="var(--text)" />
+									<p className="smallT">{convertViewsToIn(channel.statistics.viewCount)} views</p>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div className=" relative max-w-7xl h-full mx-auto ">
-				<div>
-					<div className="relative">
-						<div className="w-full aspect-[6/1] sm:rounded-2xl bg-[var(--border)] overflow-hidden">
-							{channel.brandingSettings.image.bannerExternalUrl
-								? <img className="w-full h-full object-cover" src={channel?.brandingSettings.image.bannerExternalUrl} alt="" />
-								: ""
-							}
-
+			<div className=" max-w-7xl h-full mx-auto ">
+				<div className="">
+					<div className="">
+						<div className="w-full aspect-[6/1] sm:rounded-xl lg:rounded-2xl overflow-hidden">
+							<SafeImage
+								src={channel?.brandingSettings.image.bannerExternalUrl}
+								alt="product"
+								className="w-full h-full object-cover"
+								place={"banner"}
+							/>
 						</div>
 						<div className="flex justify-between gap-4">
 							<div className="flex justify-between gap-4 ml-4">
 								<div className="max-sm:max-w-27 sm:max-w-27 md:max-w-27 lg:max-w-33 max-sm:mt-[-2rem] sm:mt-[-2rem] md:mt-[-2.4rem] lg:mt-[-3.8rem]">
-									<img className=" rounded-full" src={channel.snippet.thumbnails.medium.url} alt="" />
+									<SafeImage
+										src={channel.snippet.thumbnails.medium.url}
+										alt="product"
+										className="border border-[var(--highlight)] rounded-full"
+										place={"user"}
+									/>
+
 								</div>
 								<div className="pt-3 w-full">
 									<h1 className="pb-2">{channel.snippet.title}</h1>
@@ -237,7 +245,7 @@ function Channel() {
 							</div>
 						</div>
 					</div>
-					<ul className='nav flex items-center gap-18 gText smallT px-6 pt-9 bg-dark border-b border-b-[var(--border-muted)] z-10 overflow-x-auto exnav' style={{ position: "sticky", top: "-1rem" }}>
+					<ul className='nav flex items-center gap-18 gText smallT px-6 pt-9 border-b border-b-[var(--border-muted)] z-10 overflow-x-auto exnav'>
 						{navItems?.map((item) => (
 							<li key={item?.tag}>
 								<p className={`pb-3 cursor-pointer ${active === item?.tag ? "wText" : ""}`} onClick={() => setActive(item?.tag)}>{item?.tag}</p>

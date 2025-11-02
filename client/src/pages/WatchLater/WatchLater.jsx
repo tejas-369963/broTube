@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import VideoListCard from '../../components/VideoListCard'
+// import VideoListCard from '../../components/VideoListCard'
 import ListCover from '../../components/ListCover'
 import Circle from '../../icons/Circle'
 import { Down_svg, SearchIcon } from '../../icons'
@@ -65,7 +65,7 @@ function WatchLater() {
 						</div>
 						{videos?.map((video) => (
 							<div className='' key={video.id}>
-								<VideoListCard
+								{/* <VideoListCard
 									id={video.id}
 									title={video?.snippet?.title}
 									thumbnail={video?.snippet?.thumbnails?.high?.url}
@@ -76,7 +76,7 @@ function WatchLater() {
 									likes={video.vDetails?.statistics?.likeCount}
 									publishedAt={video?.contentDetails?.videoPublishedAt}
 									duration={video.vDetails?.contentDetails?.duration}
-								/>
+								/> */}
 							</div>
 						))}
 					</div>

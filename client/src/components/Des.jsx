@@ -1,20 +1,6 @@
 import { useState } from 'react';
-import { convertDateToString, convertViews } from '../utils/convertStuff';
+import { convertDateToString, convertViews, formatDescription } from '../utils/convertStuff';
 import { DateIcon, ViIcon } from '../icons';
-
-function formatDescription(text) {
-	const noBold = text.replace(/\*\*(.*?)\*\*/g, '$1');
-
-	// 2. Linkify URLs
-	const linked = noBold.replace(/(https?:\/\/[^\s]+)/g, url => {
-		const safeURL = url.replace(/"/g, '&quot;'); // avoid XSS
-		return `<a href="${safeURL}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-	});
-
-	// 3. Convert newlines to <br>
-	return linked.replace(/\n/g, '<br/>');
-}
-
 
 const VideoDescription = ({ text}) => {
 	const [expanded, setExpanded] = useState(false);
