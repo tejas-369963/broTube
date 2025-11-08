@@ -115,7 +115,6 @@ function Explore() {
 										views={video?.statistics.viewCount}
 										publishedAt={video?.snippet?.publishedAt}
 										duration={video.contentDetails?.duration}
-										d={true}
 										e={true}
 									/>
 								</div>
